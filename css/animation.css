@@ -1,0 +1,209 @@
+
+
+.user-creation{
+  width: auto;
+  height: 800px;
+  background-color: #e9e9e9;
+  top: 70px;
+  border: solid 2px black;
+  border-radius: 15px;
+}
+.party-creation{
+  width: auto;
+  height: 650px;
+  background-color: #e9e9e9;
+  top: 70px;
+  border: solid 2px black;
+  border-radius: 15px;
+}
+.landing_form{
+  top:50px;
+}
+.btn{
+  border: solid 2px black;
+  border-radius: 15px;
+}
+._20px_offset{
+  padding-top: 20px;
+
+}
+._40px_offset{
+  padding-top: 40px;
+}
+._10px_offset{
+  padding-top: 10px;
+}
+
+
+
+.card-main{
+  display: none;
+  width:250px;
+  height: 250px;
+  padding-left: 25px;
+  padding-top: 10px;
+  background-color: #e9e9e9;
+  border: solid 1px black;
+  border-radius: 15px;
+  float: left;
+  position: absolute;
+}
+.card-inner{
+  width: 200px;
+  height: 180px;
+  position: relative;
+  border: solid 1px black;
+  border-radius: 15px;
+  background-color: #bd5d57;
+}
+.player{
+  top: 5%;
+  position: absolute;
+  width: 300px;
+  height: 125px;
+  background-color: #e9e9e9;
+  border: solid 2px black;
+  border-radius: 15px;
+  display: none;
+}
+.fast-forward{
+  margin-top: 37.5px;
+  margin-left: 20px;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  float: left;
+  background-color: #8ef1c6;
+  background-image: url('../images/FastForward.png');
+  background-position: center;
+  background-size: cover;
+}
+.play{
+  margin-top: 22.5px;
+  margin-left: 20px;
+  height: 80px;
+  width: 80px;
+  border-radius: 40px;
+  float: left;
+  background-image: url('../images/playbutton.png');
+  background-position: center;
+  background-size: cover;
+}
+.re-wind{
+  margin-top: 37.5px;
+  margin-left: 40px;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  float: left;
+  background-color: #8ef1c6;
+  background-image: url('../images/ReWind.png');
+  background-position: center;
+  background-size: cover;
+}
+.queue-offset{
+  padding-top: 130px;
+}
+.user-suggestion{
+  height: 300px;
+  width: 350px;
+  background-color: #d1cebd;
+  border-radius: 15px;
+  position: absolute;
+
+}
+.queue-padding{
+  left: 2.37%;
+}
+.page-top-padding{
+  padding-top: 5%;
+}
+.suggestion-padding{
+  padding-top: 72%;
+}
+
+.search-main-padding{
+  margin-top: 15px;
+}
+.search-main{
+
+  background-color: #d1cebd;
+  border-radius: 15px;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  padding-left: 1vw;
+}
+.search{
+  display: none;
+  position: relative;
+  background-color: #bdbdb8;
+  border-radius: 15px;
+  height: 100px;
+  width: 45vw;
+  left: 1.8vw;
+  padding-top: 25px;
+  padding-left: 15vw;
+}
+.search-results{
+  margin-top: 15px;
+  background-color: #bdbdb8;
+  border-radius: 15px;
+  width: 45vw;
+  height: 20vh;
+  left: 1.8vw;
+  display: none;
+  position: relative;
+  padding-top: 1vh;
+}
+.float-left{
+  float: left;
+}
+.album-cover{
+
+  margin-left: 1vh;
+  width: 18vh;
+  height: 18vh;
+  background-image: url('../images/ReWind.png');
+  background-position: center;
+  background-size: cover;
+}
+.song-info{
+  height: 18vh;
+  margin-left: 2.5vw;
+
+}
+.vote-click{
+  width: 6vh;
+  height: 6vh;
+  background-color: #d1cebd;
+  border-radius: 15px;
+  margin-left: 18vw;
+  margin-top: 6vh;
+}
+
+.join-party{
+
+  margin-top: 20vh;
+  width: 20vw;
+  height: 20vw;
+  background-color: #d1cebd;
+  border-radius: 15px;
+  align-content: center;
+  text-align: center;
+  padding-top: 50%;
+}
+.create-party{
+  margin-top: 20vh;
+  width: 20vw;
+  height: 20vw;
+  background-color: #d1cebd;
+  border-radius: 15px;
+  align-content: center;
+  text-align:center;
+  padding-top: 50%;
+
+}
+.large-font{
+  font-size: 30px;
+}

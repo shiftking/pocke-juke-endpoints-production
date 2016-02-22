@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <link rel="stylesheet" href="css/animation.css">
+      <link rel="stylesheet" href="css/style_index.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <script src="js/base.js"></script>
+      <script src="js/web/web-create.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="background-main">
+
+      <div class="background-primary-left">
+      </div>
+        <div class="background-primary-right">
+        </div>
+          <div class="background-secondary-left">
+          </div>
+            <div class="background-secondary-right">
+            </div>
+            <div class="container_body container">
+
+              <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 party-creation">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-sm-6 ">
+                        <h1>Party Creation</h1>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6 col-sm-offset-1">
+                        <form class="form-group form-group-lg">
+                              <div class="container">
+
+                                <div class="row _10px_offset">
+                                  <label>Party Creation</label>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-5 _20px_offset">
+                                    <input class="form-control" id="party_name" type="text" placeholder="Party Name">
+                                  </div>
+                                </div>
+                                <div class="row _20px_offset">
+                                  <label>Password</label>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-5 _10px_offset">
+                                    <input class="form-control" id="party_code_1" type="text" placeholder="Password Code">
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-5 _20px_offset">
+                                  <input class="form-control" id="party_code_2" type="password" placeholder="Password Codes must match">
+                                  </div>
+                                </div>
+                                <div class="row _20px_offset">
+                                  <label>Thumbnail Picture</label>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-3 _20px_offset">
+
+                                    <div class="profile_pic">
+                                    </div>
+                                    <input type="file" id="exampleInputFile">
+                                  </div>
+                                  <div class="col-sm-3 _20px_offset">
+                                    <button id="create_party" type="click"class="btn btn-lg main">Submit</button>
+                                  </div>
+
+                                </div>
+                              </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+  </div>
+  <script>
+        function init() {
+            google.appengine.pocketjuke.production.init('//' + window.location.host + '/_ah/api');
+        }
+  </script>
+  <script src="https://apis.google.com/js/client.js?onload=init"></script>
+  </body>
+</html>

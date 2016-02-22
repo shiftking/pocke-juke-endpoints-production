@@ -1,0 +1,29 @@
+.song_card{
+  width: 32.5vw;
+  height:19.5vh;
+  background-color: white;
+  border-radius: 1.5vh;
+  border: solid black 2px;
+  float:left;
+  margin-left: 1.25vh;
+  margin-top: 1vh;
+  padding-top: 11vh;
+}
+
+.song_info_card{
+  height: 6vh;
+  width: 25vw;
+  text-align: center;
+  font-size: 2vh;
+
+  word-wrap: normal;
+  background-color: lightgrey;
+  border-radius: 1.5vh;
+  margin-left: 3vw;
+  margin-top: 1vh;
+  opacity: 0.9;
+}
+.song_title{
+  color:black;
+  opacity: none;
+}

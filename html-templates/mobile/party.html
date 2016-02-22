@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <link rel="stylesheet" href="css/style_index.css">
+      <link rel="stylesheet" href="css/party.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Latest compiled and minified JavaScript -->
+      <script async src="js/base.js"></script>
+      <script async src="js/mobile/party.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="background-main  ">
+
+      <div class="background-primary-left">
+      </div>
+        <div class="background-primary-right">
+        </div>
+          <div class="background-secondary-left">
+          </div>
+            <div class="background-secondary-right">
+            </div>
+            <div class="container_body ">
+              <div class="row">
+                <div class="col-xs-offset-2    col-xs-8  landing">
+
+
+                    <div class="row">
+                      <div class="menu">
+                        <div class="row">
+                          <div class="no_padding">
+                            <a id=""href="/leave_mobile">
+                              <div class="party_icon">
+                                <p>Leave Party</p>
+                              </div>
+
+                          </a>
+                          </div>
+                          <div class="no_padding">
+                            <a href="#">
+                              <div class="party_name">
+                                <p id="party_name">{{party_name}}</p>
+                              </div>
+                            </a>
+                          </div>
+                          <div class=" no_padding">
+                            <a href="/playlist">
+                              <div class="party_playlist">
+                                <p>PlayList</p>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="playing_active">
+                        <div class="active_song" id="active_song">
+                          <div id="active_song_album">
+
+                          </div>
+                        </div>
+                        <div class="queue" id="queue">
+                          <a href="#" id="more_songs">
+                            <div class="more_songs" id="">
+                              <div class="playlist_landing" id="playlist_landing" >
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                        <a href="#" id="more_songs">
+                          <div class="more_songs" id="more_songs_container">
+                            <div class="playlist_landing  container" id="playlist_landing" >
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+
+  </div>
+  <script>
+        function init() {
+            google.appengine.pocketjuke.production.init('//' + window.location.host + '/_ah/api');
+        }
+    </script>
+
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+  </body>
+</html>

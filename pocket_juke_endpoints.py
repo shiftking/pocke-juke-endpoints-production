@@ -7,16 +7,18 @@ import operator
 
 
 import endpoints
+from operator import itemgetter
 from protorpc import messages
+from google.appengine.api import users
 from protorpc import message_types
 from protorpc import remote
-
+from google.appengine.api import oauth
 from operator import itemgetter
 from google.appengine.ext import ndb
 
 
 
-WEB_CLIENT_ID = '747430920590-h2oneiqur6r83a7dng3rksednppme8es.apps.googleusercontent.com'
+WEB_CLIENT_ID = '490877078433-t9spjdkqmkqe8c3c3jbgrgot9lrhgu86.apps.googleusercontent.com'
 ANDROID_CLIENT_ID = 'replace this with your Android client ID'
 IOS_CLIENT_ID = 'replace this with your iOS client ID'
 ANDROID_AUDIENCE = WEB_CLIENT_ID
@@ -45,7 +47,7 @@ class Party(ndb.Model):
 
 #NDB datatype for a song
 class Song(ndb.Model):
-    song_name = ndb.StringProperty()
+
     track_id = ndb.StringProperty(indexed=True)
     user_suggest = ndb.KeyProperty(indexed=True)
     party_key = ndb.KeyProperty(Party,indexed=True)
@@ -64,19 +66,16 @@ class Activity(ndb.Model):
 #this represents the entity for housing the party name and code
 class Party_class(messages.Message):
   """Greeting that stores a message."""
-  name = messages.StringField(1, required=True)
-  pass_code = messages.StringField(2, required=False)
-  party_id = messages.StringField(3)
+  name = messages.StringField(1)
+  code = messages.StringField(2)
 #this represents the entity for housing the Activity_Class
 
 class Activity_class(messages.Message):
-
-
-    track_id = messages.StringField(1,required=True)
+    track_id = messages.StringField(1)
 
 class Song_class(messages.Message):
-    song_name = messages.StringField(1,required=True)
-    track_id = messages.StringField(2,required=True)
+
+    track_id = messages.StringField(2)
 
 #this holsd the entity that is used for the response for successful/not succesful additcion of a party
 class add_response(messages.Message):
@@ -87,11 +86,12 @@ class add_response(messages.Message):
 class Party_list(messages.Message):
   """Collection of Parties."""
   Parties = messages.MessageField(Party_class,1,repeated=True)
-
+  code_ = messages.IntegerField(2)
 
 class Party_info(messages.Message):
     Activity_list = messages.MessageField(Activity_class,1,repeated=True)
-    Party_key = messages.StringField(2,required=True)
+    Party_key = messages.StringField(2)
+    party_name = messages.StringField(3)
 
 
 
@@ -104,8 +104,102 @@ class Party_info(messages.Message):
                scopes=[endpoints.EMAIL_SCOPE])
 class PocketJukeAPI(remote.Service):
   """Pocket Juke API v1."""
+
+
+  @endpoints.method(add_response,Party_info,
+                    path='authed_partyInfo',http_method='GET',
+                    name='pocketjuke.getpartyinfoAuthed')
+  def get_partyInfo(self,request):
+      party_query = Party.query(Party.party_name == request.response)
+      playlist_queue = []
+      if party_query.get():
+
+          activity_query = Activity.query(Activity.party_key == party_query.get(keys_only=True)).order(Activity.song,Activity.time_stamp)
+          if activity_query.get():
+
+
+
+
+              #we need to get all of the activities so we can build the queue
+              #we dont need to sort the response, because the response is sorted already
+              #set up our constant values
+              #One of them is the maximum time between votes to be considered consecutive
+              max_time_apart = 5 #this is in seconds
+              #this one is for the time frame before the end of the current song
+              max_before_start = 2000 #this is in miliseconds
+              #this is the threshold minimum number of consecutive songs
+              min_consect_songs = 3
+              #variable to keep track of the total number of consecutive songs
+              consect_songs = 0
+              #for the consecutive songs the buff is .1 %
+              consect_buff = 1.001
+              #buff for a standard vote
+              vote_buff = 1.0005
+              #for the before the end of the current song buff its .5%
+              before_buff = 1.005
+
+
+              queue = []
+
+              pre_entry = None
+              def close_time(date1,date2):
+                  if(date1.year == date2.year):
+                      if(date1.month == date2.month):
+                          if(date1.day == date2.day):
+                              if(date1.hour == date2.hour):
+                                  if(date1.minute == date2.minute):
+                                      if(date1.second - date2.second < 5):
+                                          return True
+                  return False
+
+
+              for entry in activity_query:
+                  if not any(d['track_id'] == entry.song.get().track_id for d in queue):
+                      consect_songs = 0
+                      new_activity = Activity_class(track_id = entry.song.get().track_id)
+                      song_pos = {
+
+                            'weight' : 1,
+                            'track_id': new_activity.track_id,
+                            }
+                      queue.append(song_pos)
+                      pre_entry = entry
+                  else:
+                      pos = map(itemgetter('track_id'),queue).index(entry.song.get().track_id)
+
+
+                      if consect_songs > min_consect_songs:
+                          weight = queue[pos]['weight']
+                          queue[pos]["weight"]  = weight * consect_buff
+                      else:
+                          weight = queue[pos]['weight']
+                          queue[pos]["weight"]  = weight * vote_buff
+                          if close_time(pre_entry.time_stamp,entry.time_stamp):
+                              consect_songs += 1
+                          else:
+                              consect_songs = 0
+                        #will add this back later
+                        #if entry.date.seconds() - 500000 < max_before_start:
+                        #          queue[pos]['weight'] *= before_buff
+                      pre_entry = entry
+
+              sorted_queue = sorted(queue, key=operator.itemgetter('weight'),reverse=True)
+
+              for activity in sorted_queue:
+                  playlist_queue.append(Activity_class(track_id = activity['track_id']))
+
+
+
+              return Party_info(Activity_list = playlist_queue)
+          else:
+              playlist_queue.append(Activity_class(track_id='1'))
+              return Party_info(Activity_list = playlist_queue)
+      else:
+          playlist_queue.append(Activity_class(track_id='1'))
+          return Party_info(Activity_list = playlist_queue)
+
   @endpoints.method(Party_class,add_response,
-                    path='authed_addParty',http_method='POST',
+                    path='authed_addParty',http_method='PUT',
                     name='pocketjuke.addPartyAuthed')
   def add_Party(self,request):
       party_query = Party.query(Party.party_name == request.name)
@@ -114,7 +208,8 @@ class PocketJukeAPI(remote.Service):
           user_query = User.query(User.user_id == current_user.user_id())
           user = user_query.get()
 
-          new_party = Party(party_name = request.name,party_creator = user_query.get(keys_only=True),code = request.pass_code,attending =+1)
+          new_party = Party(party_name = request.name,party_creator = user_query.get(keys_only=True),code = request.code,attending =+1)
+
           user.party_key = new_party.put()
           user.put()
 
@@ -123,8 +218,9 @@ class PocketJukeAPI(remote.Service):
       else:
 
           return add_response(response="party already exsists")
+
   @endpoints.method(message_types.VoidMessage,add_response,
-                    path='authed_addUser',http_method="POST",
+                    path='authed_addUser',http_method='POST',
                     name='pocketjuke.addUserAuthed')
   def add_User(self,request):
       active_user = endpoints.get_current_user()
@@ -138,35 +234,49 @@ class PocketJukeAPI(remote.Service):
   QUANTITY = endpoints.ResourceContainer(
     Party_class,offset=messages.IntegerField(4, variant=messages.Variant.INT32))
   @endpoints.method(QUANTITY,Party_list,
-                    path='authed_getParty',http_method='POST',
-                    name='pocketjuke.getPartyAuthed')
+                    path='authed_getParty',http_method='GET',
+                    name='pocketjuke.getPartysAuthed')
   def get_parties(self,request):
       current_user = endpoints.get_current_user()
       keywords = []
       party_list = []
       keywords.append(request.name)
       party_query = Party.query(Party.party_name.IN(keywords))
-
-      if request.offset > 10:
-          for party in party_query.fetch(10,offset=request.offset):
-              party_list.append(Party_class(name= request.party_name))
-
-          return Party_list(Parties = party_list)
-
-        #if we are only pulling the first ten Parties
+      if party_query.get():
+          if request.offset > 10:
+              for party in party_query.fetch(10,offset=request.offset):
+                 party_list.append(Party_class(name= request.party_name))
+              return Party_list(Parties = party_list)
+              #if we are only pulling the first ten Parties
+          else:
+              for party in party_query.fetch(10):
+                  party_list.append(Party_class(name= party.party_name))
+              count = len(party_list)
+              return Party_list(Parties = party_list,code_ = count)
       else:
+          party_list = []
+          party_list.append(Party_class(name = 'None', pass_code ="none"))
+          count = 0
+          return Party_list(Parties = party_list,code_ = count)
 
-          #need to break the query up into
-          for party in party_query.fetch(10):
-              party_list.append(Party_class(name= party.party_name))
-          return Party_list(Parties = party_list)
+
+
+
+
+
+
+
   @endpoints.method(message_types.VoidMessage,add_response,
-                    path='auted_leaveParty',http_method='POST',
+                    path='auted_leaveParty',http_method='GET',
                     name='pocketjuke.leavePartyAuthed')
+
   def leave_Party(self,request):
       current_user = endpoints.get_current_user()
       active_user = User.query(User.user_id == current_user.user_id())
       user = active_user.get()
+      party = user.party_key.get()
+      party.attending = party.attending - 1
+      party.put()
       user.party_key = None
       user.put()
       return add_response(response="Removed from the party")
@@ -197,9 +307,9 @@ class PocketJukeAPI(remote.Service):
       user_query = User.query(User.user_id == current_user.user_id())
       user = user_query.get()
       party_query = user.party_key.get()
-      song_query = Song.query(ndb.AND(Song.song_name == request.song_name,Song.party_key == user.party_key))
+      song_query = Song.query(ndb.AND(Song.track_id == request.track_id,Song.party_key == user.party_key))
       if not song_query.get():
-          new_song = Song(song_name = request.song_name,track_id = request.track_id, user_suggest = user_query.get(keys_only=True),party_key = user.party_key)
+          new_song = Song(track_id = request.track_id, user_suggest = user_query.get(keys_only=True),party_key = user.party_key)
           new_song.put()
           return add_response(response='Added song as a suggestion')
       else:
@@ -214,7 +324,7 @@ class PocketJukeAPI(remote.Service):
       current_user = endpoints.get_current_user()
       user_query = User.query(User.user_id == current_user.user_id())
       user = user_query.get()
-      song_query = Song.query(ndb.AND(Song.song_name == request.song_name,Song.party_key == user.party_key))
+      song_query = Song.query(ndb.AND(Song.track_id == request.track_id,Song.party_key == user.party_key))
       if song_query.get():
 
           new_activity = Activity(song=song_query.get(keys_only=True),party_key = user.party_key,user_vote=user_query.get(keys_only=True))
@@ -222,19 +332,7 @@ class PocketJukeAPI(remote.Service):
           return add_response(response='Added vote to activity list')
       else:
           return add_response(response = 'Could not added vote to activity list')
-  @endpoints.method(message_types.VoidMessage,Party_info,
-                    path='authed_partyInfo',http_method="POST",
-                    name='pocketjuke.getPartyInfoAuthed')
-  def get_PartyInfo(slef,request):
-      current_user = endpoints.get_current_user()
-      user_query = User.query(User.user_id == current_user.user_id())
-      user = user_query.get()
-      activity_list = Activity.query(Activity.party_key == user.party_key)
-      party_activity_list = []
-      for activity in activity_list:
-          song = activity.song.get()
-          party_activity_list.append(Activity_class(track_id = song.track_id))
-      return Party_info(Activity_list = party_activity_list,Party_key= user.party_key.urlsafe())
+
 
 
 

@@ -1,0 +1,41 @@
+.option-block{
+  background-color: #4e4e4e;
+  height: 35vh;
+  width: 50vw;
+
+}
+.join-party{
+
+  margin-top: 20vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vw;
+  height: 20vh;
+  background-color: #d1cebd;
+  border-radius: 15px;
+  align-content: center;
+  text-align: center;
+
+}
+.create-party{
+  margin-top: 5vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vw;
+  height: 20vh;
+  background-color: #4e4e4e;
+  border-radius: 15px;
+  align-content: center;
+  text-align:center;
+
+  border: solid #222222 2px;
+
+
+}
+.large-font{
+  font-size: 5vh;
+
+}
+.middle-align{
+
+}

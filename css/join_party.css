@@ -1,0 +1,51 @@
+.results-landing{
+  padding-top: .006vh;
+  margin-top: 3.5vh;
+  height: 70vh;
+  background-color: white;
+  border-radius: 2vh;
+}
+.no-padding-left{
+  padding-left: .25vw !important;
+}
+.no-padding-right{
+  padding-right: 0px !important;
+}
+.search{
+  width: 12vw !important;
+}
+p{
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.party_main{
+  border-radius: 2vh;
+  width: auto;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  height: 15vh;
+  background-color: #7d7b73;
+  padding-left: 1.5vh;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+}
+.party_icon{
+  height: 12vh;
+  width: 12vh;
+  background-color: white;
+  border-radius: 2vh;
+  float: left;
+  margin-right: 1.5vh;
+}
+.party_name{
+  height: 12vh;
+  text-align: center;
+  padding-top: 3.5vh;
+  font-size: 4vh;
+  width: 32vw;
+  background-color: white;
+  border-radius: 2vh;
+  float: left;
+}

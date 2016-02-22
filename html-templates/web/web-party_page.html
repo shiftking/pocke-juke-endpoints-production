@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <link rel="stylesheet" href="css/style_index.css">
+      <link rel="stylesheet" href="css/animation.css">
+      <link rel="stylesheet" href="css/party.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script src="js/base.js"></script>
+      <script src="js/web/web-party.js"></script>
+      <script src="js/animation/animation.js"></script>
+
+  </head>
+  <body>
+    <div class="background-main">
+
+      <div class="background-primary-left">
+      </div>
+      <div class="background-primary-right">
+      </div>
+      <div class="background-secondary-left">
+      </div>
+      <div class="background-secondary-right">
+      </div>
+            <div class="container_body container">
+              <ul class="nav nav-pills">
+                <li role="presentation" class="active"><a href="#" id="party_name">{{party_name}}</a></li>
+                <li role="presentation"><a href="/leave_web" id="">Leave Party</a></li>
+                <li role="presentation"><a href="#">Details</a></li>
+              </ul>
+              <div class="row">
+                <div class="col-sm-10 col-sm-offset-1 page-top-padding ">
+                  <div class="row">
+                    <div class="col-sm-2 col-sm-offset-4 ">
+
+                        <div class="player play-control-padding">
+                          <div class="re-wind">
+                          </div>
+                          <div class="play">
+                          </div>
+                          <div class="fast-forward">
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="row">
+                    <!--Queue Div list-->
+                      <div class="col-sm-3 col-sm-offset-4 queue-padding">
+
+                            <div id="card_0" class="card-main">
+                              <div id="card_0_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_0_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_1" class="card-main">
+                              <div  id="card_1_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_1_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_2" class="card-main">
+                              <div  id="card_2_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_2_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_3" class="card-main">
+                              <div  id="card_3_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name"  id="card_3_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_4" class="card-main">
+                              <div  id="card_4_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_4_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_5" class="card-main">
+                              <div id="card_5_inner"  class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_5_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_6" class="card-main">
+                              <div  id="card_6_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_6_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_7" class="card-main">
+                              <div  id="card_7_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_7_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_8" class="card-main">
+                              <div  id="card_8_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_8_name"></p>
+                              </div>
+                            </div>
+                            <div id="card_9" class="card-main">
+                              <div id="card_9_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name"  id="card_9_name"></p>
+                              </div>
+                            </div>
+
+                            <!--Playing Div -->
+                            <div  id="card_10" class="card-main">
+                              <div  id="card_10_inner" class="card-inner">
+                              </div>
+                              <div>
+                                <p class="card_name" id="card_10_name"></p>
+                              </div>
+                            </div>
+
+                          </div>
+                      </div>
+                      <div class="row ">
+                        <div class="col-sm-8 suggestion-padding">
+                          <div class="user-suggestion">
+                          </div>
+                        </div>
+                      </div>
+
+                </div>
+              </div>
+
+
+
+            </div>
+
+      </div>
+      <script>
+            function init() {
+                google.appengine.pocketjuke.production.init('//' + window.location.host + '/_ah/api');
+            }
+      </script>
+      <script src="https://apis.google.com/js/client.js?onload=init"></script>
+  </body>
+</html>

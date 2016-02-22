@@ -1,0 +1,25 @@
+.join-results{
+  height: 10vh;
+  border-radius: 2vh;
+}
+.inner-frame{
+  border-radius: 2vh;
+  background-color: white;
+  
+  margin-right: 2vw;
+}
+.party-art{
+  height: 9vh;
+
+}
+.party-name-cont{
+  height: 9vh;
+
+
+}
+.party-name{
+
+  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+}

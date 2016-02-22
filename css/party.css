@@ -1,0 +1,186 @@
+.menu{
+  width: auto;
+  height: 12vh;
+  background-color: #b4b4b4;
+  margin-left: 1vh;
+  margin-right: 1vh;
+  margin-top: 1vh;
+  border-radius: 2.5vh;
+  padding-left: 2.5vh;
+  padding-right: 2.5vh;
+  position: relative;
+}
+.landing{
+  top: 3vh;
+  height: 95vh !important;
+}
+.playing_active{
+  margin-left: 1vh;
+  margin-right: 1vh;
+  margin-top: 1vh;
+  border-radius: 2.5vh;
+  width: auto;
+  height: 80vh;
+  background-color: #b4b4b4;
+  padding-top: 1vh;
+}
+.no_padding{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.party_icon{
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-left: 1vh;
+  height: 10vh;
+  width: 10vh;
+  background-color: white;
+  border-radius: 2.5vh;
+  float: left;
+  padding-top: 3vh;
+  text-align: center;
+}
+
+.party_name{
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-left: 1vh;
+
+  height: 10vh;
+  width: 28vw;
+  position: relative;
+  background-color: white;
+  border-radius: 2.5vh;
+  float: left;
+  padding-top: 3vh;
+  text-align: center;
+}
+
+.party_playlist{
+  margin-right: 1vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  height: 10vh;
+  width: 10vh;
+  background-color: white;
+  border-radius: 2.5vh;
+  float:  right;
+  padding-top: 3vh;
+  text-align: center;
+}
+.active_song{
+  text-align: center;
+  width: auto;
+  height: 41vh;
+  margin-left: 1vh;
+  margin-right: 1vh;
+  background-color: white;
+  border-radius: 2.5vh;
+}
+.song_active{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.queue{
+  margin-top: 1vh;
+  width: auto;
+  height: 35vh;
+  margin-left: 1vh;
+  margin-right: 1vh;
+  background-color: white;
+  border-radius: 2.5vh;
+  padding-top: 1vh;
+}
+
+.song_main{
+  border-radius: 2vh;
+  width: auto;
+  margin-left: 2vw;
+  margin-right: 2vw;
+
+
+  height: 10vh;
+  background-color: #7d7b73;
+  padding-left: 1.5vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+.song_icon{
+  height: 8vh;
+  width: 8vh;
+  background-color: white;
+  border-radius: 2vh;
+  float: left;
+  margin-right: 1.5vh;
+}
+.song_name{
+  height: 8vh;
+  text-align: center;
+  padding-top: 3vh;
+  font-size: 2vh;
+  width: 40vw;
+  background-color: white;
+  border-radius: 2vh;
+  float: left;
+}
+.more_songs{
+  height: 2vh;
+  background-color: #7d7b73;
+  width: auto;
+  border-radius: 3vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-top: .5vh;
+
+}
+.close_pl_active{
+
+  height: 2vh;
+  margin-top: .5vh;
+  width: auto;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  background-color: white;
+  border-radius: 3vh;
+
+}
+.close_pl_inactive{
+  display: none;
+}
+.playlist_landing{
+
+}
+.song_name{
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.song_card{
+  width: 32.5vw;
+  height:19.5vh;
+  background-color: white;
+  border-radius: 1.5vh;
+  border: solid black 2px;
+  float:left;
+  margin-left: 1.25vh;
+  margin-top: 1vh;
+  padding-top: 11vh;
+}
+
+.song_info_card{
+  height: 6vh;
+  width: 25vw;
+  text-align: center;
+  font-size: 2vh;
+
+  word-wrap: normal;
+  background-color: lightgrey;
+  border-radius: 1.5vh;
+  margin-left: 3vw;
+  margin-top: 1vh;
+  opacity: 0.9;
+}
+.song_title{
+  color:black;
+  opacity: none;
+}

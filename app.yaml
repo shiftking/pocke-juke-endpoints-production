@@ -9,9 +9,25 @@ handlers:
 # Endpoints handler: Must be /_ah/spi. Apps send requests to /_ah/api, but these are handled at /_ah/spi!!
 - url: /_ah/spi/.*
   script: pocket_juke_endpoints.APPLICATION
+- url: /css
+  static_dir: css
+- url: /js
+  static_dir: js
+- url: /.*
+  script: main.app
+- url: /html-templates
+  static_dir: /tml-templates
+- url: /.*
+  script: main.app
+
+
 
 libraries:
 - name: pycrypto
   version: latest
 - name: endpoints
   version: 1.0
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
