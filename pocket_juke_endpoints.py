@@ -26,22 +26,19 @@ ANDROID_AUDIENCE = WEB_CLIENT_ID
 package = 'pocket_juke'
 #thsi represents the entitiy for a user class
 
-class Party(ndb.Model):
-    """Somthoing"""
-
 
 #NDB data type user
 class User(ndb.Model):
     """Sub Model representing the user"""
     user_id = ndb.StringProperty(indexed=True)
-    party_key = ndb.KeyProperty(Party,indexed=True)
+    party_key = ndb.StringProperty(indexed=True)
 
 
 #NDB data type party
-class Party(ndb.Model):
+class Party_(ndb.Model):
     """main model to represent a party"""
     party_creator = ndb.KeyProperty(User,indexed=True)
-    party_name = ndb.StringProperty(indexed=True)
+    name = ndb.StringProperty(indexed=True)
     code = ndb.StringProperty(indexed=False)
     attending = ndb.IntegerProperty(indexed=False)
 
@@ -50,13 +47,13 @@ class Song(ndb.Model):
 
     track_id = ndb.StringProperty(indexed=True)
     user_suggest = ndb.KeyProperty(indexed=True)
-    party_key = ndb.KeyProperty(Party,indexed=True)
+    party_key = ndb.KeyProperty(Party_,indexed=True)
 
 
 #NDB datatype for an activity
 class Activity(ndb.Model):
     song = ndb.KeyProperty(Song,indexed=True)
-    party_key = ndb.KeyProperty(Party,indexed=True)
+    party_key = ndb.KeyProperty(Party_,indexed=True)
     user_vote = ndb.KeyProperty(User,indexed=True)
     time_stamp = ndb.DateTimeProperty(auto_now_add=True)
 
@@ -74,7 +71,6 @@ class Activity_class(messages.Message):
     track_id = messages.StringField(1)
 
 class Song_class(messages.Message):
-
     track_id = messages.StringField(2)
 
 #this holsd the entity that is used for the response for successful/not succesful additcion of a party
@@ -86,7 +82,7 @@ class add_response(messages.Message):
 class Party_list(messages.Message):
   """Collection of Parties."""
   Parties = messages.MessageField(Party_class,1,repeated=True)
-  code_ = messages.IntegerField(2)
+
 
 class Party_info(messages.Message):
     Activity_list = messages.MessageField(Activity_class,1,repeated=True)
@@ -110,7 +106,7 @@ class PocketJukeAPI(remote.Service):
                     path='authed_partyInfo',http_method='GET',
                     name='pocketjuke.getpartyinfoAuthed')
   def get_partyInfo(self,request):
-      party_query = Party.query(Party.party_name == request.response)
+      party_query = Party_.query(Party_.name == request.response)
       playlist_queue = []
       if party_query.get():
 
@@ -202,13 +198,13 @@ class PocketJukeAPI(remote.Service):
                     path='authed_addParty',http_method='PUT',
                     name='pocketjuke.addPartyAuthed')
   def add_Party(self,request):
-      party_query = Party.query(Party.party_name == request.name)
+      party_query = Party_.query(Party_.name == request.name)
       if not party_query.get():
           current_user = endpoints.get_current_user()
           user_query = User.query(User.user_id == current_user.user_id())
           user = user_query.get()
 
-          new_party = Party(party_name = request.name,party_creator = user_query.get(keys_only=True),code = request.code,attending =+1)
+          new_party = Party_(name = request.name,party_creator = user_query.get(keys_only=True),code = request.code,attending =+1)
 
           user.party_key = new_party.put()
           user.put()
@@ -241,7 +237,7 @@ class PocketJukeAPI(remote.Service):
       keywords = []
       party_list = []
       keywords.append(request.name)
-      party_query = Party.query(Party.party_name.IN(keywords))
+      party_query = Party_.query(Party_.name.IN(keywords))
       if party_query.get():
           if request.offset > 10:
               for party in party_query.fetch(10,offset=request.offset):
@@ -250,14 +246,14 @@ class PocketJukeAPI(remote.Service):
               #if we are only pulling the first ten Parties
           else:
               for party in party_query.fetch(10):
-                  party_list.append(Party_class(name= party.party_name))
+                  party_list.append(Party_class(name= party.name))
               count = len(party_list)
-              return Party_list(Parties = party_list,code_ = count)
+              return Party_list(Parties = party_list)
       else:
           party_list = []
-          party_list.append(Party_class(name = 'None', pass_code ="none"))
+          party_list.append(Party_class(name = 'None', pass_code = 'None'))
           count = 0
-          return Party_list(Parties = party_list,code_ = count)
+          return Party_list(Parties = party_list)
 
 
 
@@ -285,15 +281,17 @@ class PocketJukeAPI(remote.Service):
                     path='authed_joinParty',http_method='POST',
                     name='pocketjuke.joinPartyAuthed')
   def join_Party(self,response):
-      current_user = endpoints.get_current_user()
+      current_user = users.get_current_user()
       keywords = []
       keywords.append(response.name)
-      party_query = Party.query(Party.party_name.IN(keywords))
+      party_query = Party_.query(Party_.name.IN(keywords))
       if party_query.get():
           user_query = User.query(User.user_id == current_user.user_id())
           user = user_query.get()
           party = party_query.get()
-          party.attending = party.attending + 1
+          #party.attending = party.attending + 1
+
+          #party_query = Party_.query(Party_.name.IN(keywords))
           user.party_key = party.put()
           user.put()
           return add_response(response="Joined party")

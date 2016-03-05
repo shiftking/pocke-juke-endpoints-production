@@ -1,6 +1,11 @@
+
+//playlist staus
+var playlist_open = false;
+
 google.appengine.pocketjuke.production.signin = function(callback) {
+  //alert(localStorage.getItem("logged"));
   gapi.auth.authorize({client_id: google.appengine.pocketjuke.production.CLIENT_ID,
-      scope: google.appengine.pocketjuke.production.SCOPES, immediate: true},
+      scope: google.appengine.pocketjuke.production.SCOPES, immediate: localStorage.getItem("logged")},
       callback);
 };
 
@@ -50,7 +55,7 @@ google.appengine.pocketjuke.production.secondary_playlist = function(){
         if(resp.Activity_list.length > 8){
           count = 8;
         }else{
-          count = resp.Activity_list.length + 1;
+          count = resp.Activity_list.length;
         }
         var tracks = "";
         tracks += resp.Activity_list[1].track_id;
@@ -129,7 +134,7 @@ google.appengine.pocketjuke.production.secondary_playlist = function(){
 //Retrive party information for the active party
 //version: 1.0 retreval function added to get infor about the party
 //version: 1.1 Added song information function
-getPartyInfo = function(){
+google.appengine.pocketjuke.production.getPartyInfo = function(){
   gapi.client.pocketjuke.pocketjuke.getpartyinfoAuthed({
     response: document.querySelector("#party_name").innerHTML
   }).execute(function(resp){
@@ -148,7 +153,7 @@ getPartyInfo = function(){
         document.querySelector("#queue").innerHTML = "";
         for(var i = 0 ; i < count; i++){
           //update active song div
-          var playlist_button = document.querySelector('#more_songs');
+          //var playlist_button = document.querySelector('#more_songs');
           if(i == 0){
             //var active_song = document.createElement('p');
             //active_song.className = "song_active";
@@ -189,12 +194,28 @@ getPartyInfo = function(){
 
 
         document.querySelector('#more_songs').addEventListener('click',function(){
-          $("#more_songs_container").css('z-index',1000);
-          document.querySelector("#more_songs_container").style.position = "absolute";
-          $("#more_songs_container").animate({top: "-=.1vh",left:"-2.5vw"},500);
-          $("#more_songs_container").animate({height: "90vh"},500);
-          $("#more_songs_container").animate({width: "70vw"},500)
-          google.appengine.pocketjuke.production.secondary_playlist();
+          if(!playlist_open){
+            $("#more_songs_container").css('z-index',1000);
+            document.querySelector("#more_songs_container").style.position = "absolute";
+            $("#more_songs_container").animate({top: "-.1vh",left:"-2vw"},500);
+            $("#more_songs_container").animate({height: "95vh"},500);
+            $("#more_songs_container").animate({width: "70vw"},500);
+
+            setTimeout(google.appengine.pocketjuke.production.secondary_playlist,1700);
+            $("#playlist_landing").fadeIn();
+            playlist_open = true;
+          }else{
+            $("#more_songs_container").css('z-index',1000);
+
+            document.querySelector('#playlist_landing').innerHTML = "";
+            $("#playlist_landing").fadeOut();
+            $("#more_songs_container").animate({top: "+=.1vh",left:"+=2vw"},500);
+            $("#more_songs_container").animate({height: "2vh"},500);
+            $("#more_songs_container").animate({width: "61vw"},500);
+            //pause(500);
+            document.querySelector("#more_songs_container").style.position = "relative";
+            playlist_open = false;
+          }
         });
 
         //document.querySelector("#queue").appendChild(more_songs);
@@ -220,12 +241,12 @@ google.appengine.pocketjuke.production.leave_party = function(){
 };
 google.appengine.pocketjuke.production.enableButtons = function(){
   //alert(localStorage.getItem("session_token"));
-  getPartyInfo();
+  google.appengine.pocketjuke.production.getPartyInfo();
 
-  document.querySelector("#leave_party").addEventListener('click',function(e){
+  //document.querySelector("#leave_party").addEventListener('click',function(e){
     //alert(document.querySelector("#name").value);
-    google.appengine.pocketjuke.production.leave_party();
-  });
+    //google.appengine.pocketjuke.production.leave_party();
+  //});
 };
 pause = function(millis) {
   var date = new Date();

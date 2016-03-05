@@ -24,39 +24,39 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 # Version update: 0.1 added user control statment to check if user is signed in
 #"""
 
-class Party(ndb.Model):
-    """Somthoing"""
+#NDB data type party
+class Party_(ndb.Model):
+    """main model to represent a party"""
+    party_creator = ndb.StringProperty(indexed=True)
+    name = ndb.StringProperty(indexed=True)
+    code = ndb.StringProperty(indexed=False)
+    attending = ndb.IntegerProperty(indexed=False)
+
 
 
 #NDB data type user
 class User(ndb.Model):
     """Sub Model representing the user"""
     user_id = ndb.StringProperty(indexed=True)
-    party_key = ndb.KeyProperty(Party,indexed=True)
+    party_key = ndb.KeyProperty(Party_,indexed=True)
 
 
-#NDB data type party
-class Party(ndb.Model):
-    """main model to represent a party"""
-    party_creator = ndb.KeyProperty(User,indexed=True)
-    party_name = ndb.StringProperty(indexed=True)
-    code = ndb.StringProperty(indexed=False)
-    attending = ndb.IntegerProperty(indexed=False)
 
 #NDB datatype for a song
 class Song(ndb.Model):
     song_name = ndb.StringProperty()
     track_id = ndb.StringProperty(indexed=True)
     user_suggest = ndb.KeyProperty(indexed=True)
-    party_key = ndb.KeyProperty(Party,indexed=True)
+    party_key = ndb.KeyProperty(Party_,indexed=True)
 
 
 #NDB datatype for an activity
 class Activity(ndb.Model):
     song = ndb.KeyProperty(Song,indexed=True)
-    party_key = ndb.KeyProperty(Party,indexed=True)
+    party_key = ndb.KeyProperty(Party_,indexed=True)
     user_vote = ndb.KeyProperty(User,indexed=True)
     time_stamp = ndb.DateTimeProperty(auto_now_add=True)
+
 
 
 
@@ -158,8 +158,24 @@ class CreateParty(webapp2.RequestHandler):
                 self.redirect('/')
         else :
             self.redirect('/')
+    def post(self):
+        user = users.get_current_user()
 
+        if user:
+            query = User.query(User.user_id == user.user_id())
+            if query.get():
+            #checks if there is an active user in the DB
+                active_user = query.get()
+                name = self.request.get('party_name')
+                new_party = Party_(party_creator = user.user_id(),name=self.request.get('party_name'),code = self.request.get('party_code_1'))
 
+                active_user.party_key = new_party.put()
+                active_user.put()
+                self.redirect('/party')
+            else:
+                self.redirect('/')
+        else :
+            self.redirect('/')
 """
 # Description: Join porty Controller, hadles users joining already exsisting parties
 #
@@ -174,6 +190,24 @@ class JoinParty(webapp2.RequestHandler):
             self.response.write(template.render())
         else:
             self.redirect('/')
+
+    def post(self):
+        user = users.get_current_user()
+
+        if user:
+            query = User.query(User.user_id == user.user_id())
+            if query.get():
+                active_user = query.get();
+                party = Party_.query(Party_.name == self.request.get('party_name'))
+                if party.get():
+                    active_user.party_key = party.get(keys_only=True)
+                    active_user.put()
+                    self.redirect('/party')
+            else:
+                self.redirect('/')
+        else:
+            self.redirect('/')
+
 
 """
 # Description: Party controller handles the party details ie playlist and current playing song
@@ -190,7 +224,7 @@ class Party(webapp2.RequestHandler):
                 active_user = query.get();
                 if active_user.party_key != None:
                     template_values = {
-                        "party_name": active_user.party_key.get().party_name,
+                        "party_name": active_user.party_key.get().name,
                     }
                     template = JINJA_ENVIRONMENT.get_template('html-templates/mobile/party.html')
                     self.response.write(template.render(template_values))
@@ -307,6 +341,7 @@ class WebJoin(webapp2.RequestHandler):
             self.response.write(template.render())
         else:
             self.redirect('/web')
+
 """
 # Description:
 #
@@ -324,7 +359,7 @@ class WebParty(webapp2.RequestHandler):
                     logout_url = users.create_logout_url(self.request.uri)
                     template_values={
                     "logout_url": logout_url,
-                    "party_name": active_user.party_key.get().party_name,
+                    "party_name": active_user.party_key.get().name,
                     }
                     #self.response.write(template.render(template_values))
 
@@ -372,6 +407,7 @@ class LeavePartyMobile(webapp2.RequestHandler):
                 self.redirect('/')
         else:
             self.redirect('/')
+
 
 app = webapp2.WSGIApplication([
         ('/', MainPage),

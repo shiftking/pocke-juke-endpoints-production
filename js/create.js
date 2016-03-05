@@ -1,6 +1,6 @@
 google.appengine.pocketjuke.production.signin = function(callback) {
   gapi.auth.authorize({client_id: google.appengine.pocketjuke.production.CLIENT_ID,
-      scope: google.appengine.pocketjuke.production.SCOPES, immediate: true},
+      scope: google.appengine.pocketjuke.production.SCOPES, immediate: localStorage.getItem("logged")},
       callback);
 };
 pause = function(millis) {
@@ -29,9 +29,9 @@ google.appengine.pocketjuke.production.add_party = function(){
 google.appengine.pocketjuke.production.enableButtons = function(){
 
 
-    var submit_party = document.querySelector('#create_party');
+    //var submit_party = document.querySelector('#create_party');
 
-    submit_party.addEventListener('click',function(){
+    /*submit_party.addEventListener('click',function(){
       google.appengine.pocketjuke.production.add_party();
-    });
+    });*/
 };

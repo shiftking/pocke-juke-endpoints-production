@@ -1,6 +1,6 @@
 google.appengine.pocketjuke.production.signin = function(callback) {
   gapi.auth.authorize({client_id: google.appengine.pocketjuke.production.CLIENT_ID,
-      scope: google.appengine.pocketjuke.production.SCOPES, immediate: true},
+      scope: google.appengine.pocketjuke.production.SCOPES, immediate: localStorage.getItem("logged")},
       callback);
 };
 //Enable buttons
@@ -60,23 +60,23 @@ add_parties = function(response){
       var input_hid = document.createElement('input');
       input_hid.setAttribute('type',"text");
       input_hid.setAttribute("type", "hidden");
-      input_hid.id = "name";
+      input_hid.name = "party_name";
       input_hid.setAttribute("value", parties[i].name);
       //link.href = "#";
       form.setAttribute('method',"post");
       var join_b = document.createElement('input')
-      join_b.setAttribute('type',"button");
+      join_b.setAttribute('type',"submit");
       join_b.setAttribute('value',"join");
       join_b.className = "btn btn-primary";
       join_b.id = parties[i].name;
-      join_b.addEventListener('click',function (){
+      /*join_b.addEventListener('click',function (){
         gapi.client.pocketjuke.pocketjuke.joinPartyAuthed({
           "name" : this.id
         }).execute(function(){
           pause(1000);
           window.location.href = "/part";
         });
-      })
+      });*/
       party_name_cont.appendChild(party_name);
       inner_frame.appendChild(party_art);
       inner_frame.appendChild(party_name_cont);
