@@ -1,50 +1,123 @@
 
-google.appengine.pocketjuke.production.update_party = function(party_info){
+update_party = function(party_info){
   //document.querySelector("#party_name").innerHTML = party_info.party_name;
-  var remaining = 11;
+  var items= 0;
   var tracks = '';
   tracks+= party_info.Activity_list[0].track_id;
-  for(var i =1;i < party_info.Activity_list.length;i++){
+  if (party_info.Activity_list.length > 11){
+    items = 11;
+  }else{
+    items = party_info.Activity_list.length;
+  }
+  for(var i =1;i < items;i++){
     tracks+=','+ party_info.Activity_list[i].track_id;
 
   }
-  $.ajax({
-       url: 'https://api.spotify.com/v1/tracks',
-       data: {
-         ids: tracks
-       },
-       success: function (response) {
-           for(var i = 0;i<party_info.Activity_list.length;i++){
-             document.querySelector("#card_"+queue_position[10-i]+"_inner").style.backgroundImage = "url(" + response.tracks[i].album.images[0].url+')';
-             document.querySelector("#card_"+queue_position[10-i]+"_inner").style.backgroundSize = "100%";
-             document.querySelector("#card_"+queue_position[10-i]+"_name").innerHTML = response.tracks[i].name;
-             $("#card_"+queue_position[10-i]).fadeIn();
-             remaining--;
-           }
-           for(var i = 0;i<remaining;i++){
-             $("#card_"+queue_position[i]).fadeOut();
-           }
-       }
-   });
+  if(items > 0){
+    $.ajax({
+         url: 'https://api.spotify.com/v1/tracks',
+         data: {
+           ids: tracks
+         },
+         success: function (response) {
+           document.querySelector('#playlist').innerHTML = "";
+           tracks = response.tracks;
+           //add values for the active song
+              document.querySelector('#active_song').style.backgroundImage = "url("+tracks[0].album.images[1].url+")";
+              document.querySelector('#active_song').style.backgroundSize = "100% 100%";
+              document.querySelector('#active_song_name').innerHTML = tracks[0].name;
+            //add remaining
+             for(var i = 1;i<tracks.length ;i++){
+               //first column
+               var card_container = document.createElement('div');
+               card_container.className = "col-xs-6";
+               var card = document.createElement('div');
+               card.className = "song_card";
+               //album art
+               var album_container = document.createElement('div');
+               album_container.className = "col-xs-4";
+               var album = document.createElement('div');
+               album.style.backgroundImage = "url("+tracks[i].album.images[1].url+")";
+               album.style.backgroundSize = "100% 100%";
+               album.className = "album_cover";
+               album_container.appendChild(album);
+
+               card.appendChild(album_container);
+
+               //song info
+               var song_info_container = document.createElement('div');
+               song_info_container.className = "col-xs-4";
+               var song = document.createElement('div');
+               song.className = "song";
+               var song_name = document.createElement('p');
+               var album_name = document.createElement('p');
+               song_name.innerHTML = tracks[i].name;
+               album_name.innerHTML = tracks[i].album.name;
+               song.appendChild(song_name);
+               song.appendChild(album_name);
+               song_info_container.appendChild(song);
+               card.appendChild(song_info_container);
+               card_container.appendChild(card);
+               //add vote number later
+               document.querySelector('#playlist').appendChild(card_container);
+               i++;
+               if(i < party_info.Activity_list.length ){ //second column
+                 var card_container = document.createElement('div');
+                 card_container.className = "col-xs-6";
+                 var card = document.createElement('div');
+                 card.className = "song_card";
+                 //album art
+                 var album_container = document.createElement('div');
+                 album_container.className = "col-xs-4";
+                 var album = document.createElement('div');
+                 album.style.backgroundImage = "url("+tracks[i].album.images[1].url+")";
+                 album.style.backgroundSize = "100% 100%";
+                 album.className = "album_cover";
+                 album_container.appendChild(album);
+
+                 card.appendChild(album_container);
+
+                 //song info
+                 var song_info_container = document.createElement('div');
+                 song_info_container.className = "col-xs-4";
+                 var song = document.createElement('div');
+                 song.className = "song";
+                 var song_name = document.createElement('p');
+                 var album_name = document.createElement('p');
+                 song_name.innerHTML = tracks[i].name;
+                 album_name.innerHTML = tracks[i].album.name;
+                 song.appendChild(song_name);
+                 song.appendChild(album_name);
+                 song_info_container.appendChild(song);
+                 card.appendChild(song_info_container);
+                 card_container.appendChild(card);
+                 //add vote number later
+                 document.querySelector('#playlist').appendChild(card_container);
+
+               }
+             }
+
+         }
+     });
+   }
 };
 /*
 # Description: updates the song info for the cards in the plalist position
 #
 # Version update: 0.1 added ajax call, still need to get it working
 */
-update_party = function(party_details){
-  document.querySelector("#party_name").innerHTML = party_details.party_name;
-}
+
 google.appengine.pocketjuke.production.update_party_details = function(){
   gapi.client.pocketjuke.pocketjuke.getpartyinfoAuthed({
     "response": document.querySelector("#party_name").innerHTML
   }).execute(function(resp){
     if(!resp.code){
-      google.appengine.pocketjuke.production.update_party(resp);
+      update_party(resp);
     }
   });
 
 };
+
 pause = function(millis) {
   var date = new Date();
   var curDate = null;

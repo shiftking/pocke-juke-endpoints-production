@@ -281,7 +281,7 @@ class PocketJukeAPI(remote.Service):
                     path='authed_joinParty',http_method='POST',
                     name='pocketjuke.joinPartyAuthed')
   def join_Party(self,response):
-      current_user = users.get_current_user()
+      current_user = endpoints.get_current_user()
       keywords = []
       keywords.append(response.name)
       party_query = Party_.query(Party_.name.IN(keywords))

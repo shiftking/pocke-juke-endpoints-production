@@ -48,6 +48,7 @@ class Song(ndb.Model):
     track_id = ndb.StringProperty(indexed=True)
     user_suggest = ndb.KeyProperty(indexed=True)
     party_key = ndb.KeyProperty(Party_,indexed=True)
+    playing = ndb.BooleanProperty()
 
 
 #NDB datatype for an activity

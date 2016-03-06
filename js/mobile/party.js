@@ -52,8 +52,8 @@ google.appengine.pocketjuke.production.secondary_playlist = function(){
     if(!resp.code){
       if(resp.Activity_list[0].track_id != 1){
         var count;
-        if(resp.Activity_list.length > 8){
-          count = 8;
+        if(resp.Activity_list.length > 9){
+          count = 9;
         }else{
           count = resp.Activity_list.length;
         }
