@@ -11,6 +11,7 @@ pause = function(millis) {
   do { curDate = new Date(); }
   while(curDate-date < millis);
 }
+/* Depricated moved to syncronus HTTPS call
 google.appengine.pocketjuke.production.add_party = function(){
   var party_name = document.querySelector('#party_name').value;
   var code = document.querySelector("#party_code_1").value;
@@ -25,14 +26,14 @@ google.appengine.pocketjuke.production.add_party = function(){
     }
   });
 };
-
+*/
 
 google.appengine.pocketjuke.production.enableButtons = function(){
 
 
-    var submit_party = document.querySelector('#create_party');
+    //var submit_party = document.querySelector('#create_party');
 
-    submit_party.addEventListener('click',function(){
-      google.appengine.pocketjuke.production.add_party();
-    });
+    //submit_party.addEventListener('click',function(){
+      //google.appengine.pocketjuke.production.add_party();
+    //});
 };

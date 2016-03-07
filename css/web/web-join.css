@@ -5,7 +5,7 @@
 .inner-frame{
   border-radius: 2vh;
   background-color: white;
-  
+
   margin-right: 2vw;
 }
 .party-art{
@@ -16,6 +16,9 @@
   height: 9vh;
 
 
+}
+.party_button{
+  height: 9vh;
 }
 .party-name{
 

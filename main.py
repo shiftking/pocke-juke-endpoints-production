@@ -328,6 +328,24 @@ class WebCreate(webapp2.RequestHandler):
                 self.redirect('/web')
         else :
             self.redirect('/web')
+    def post(self):
+        user = users.get_current_user()
+
+        if user:
+            query = User.query(User.user_id == user.user_id())
+            if query.get():
+            #checks if there is an active user in the DB
+                active_user = query.get()
+                name = self.request.get('party_name')
+                new_party = Party_(party_creator = user.user_id(),name=self.request.get('party_name'),code = self.request.get('party_code_1'))
+
+                active_user.party_key = new_party.put()
+                active_user.put()
+                self.redirect('/web_party')
+            else:
+                self.redirect('/web')
+        else :
+            self.redirect('/web')
 """
 # Description:
 #
@@ -340,6 +358,23 @@ class WebJoin(webapp2.RequestHandler):
         if user:
             template = JINJA_ENVIRONMENT.get_template('html-templates/web/web-join_party.html')
             self.response.write(template.render())
+        else:
+            self.redirect('/web')
+
+    def post(self):
+        user = users.get_current_user()
+
+        if user:
+            query = User.query(User.user_id == user.user_id())
+            if query.get():
+                active_user = query.get();
+                party = Party_.query(Party_.name == self.request.get('party_name'))
+                if party.get():
+                    active_user.party_key = party.get(keys_only=True)
+                    active_user.put()
+                    self.redirect('/web_party')
+            else:
+                self.redirect('/web')
         else:
             self.redirect('/web')
 
