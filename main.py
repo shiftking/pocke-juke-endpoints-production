@@ -18,11 +18,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-"""
-# Description: Controller for mainpage access, ie loging in for the first time
-#
-# Version update: 0.1 added user control statment to check if user is signed in
-#"""
+
 
 #NDB data type party
 class Party_(ndb.Model):
@@ -61,7 +57,11 @@ class Activity(ndb.Model):
 
 
 
-
+"""
+# Description: Controller for mainpage access, ie loging in for the first time
+#
+# Version update: 0.1 added user control statment to check if user is signed in
+#"""
 
 
 class MainPage(webapp2.RequestHandler):
@@ -167,7 +167,7 @@ class CreateParty(webapp2.RequestHandler):
             #checks if there is an active user in the DB
                 active_user = query.get()
                 name = self.request.get('party_name')
-                new_party = Party_(party_creator = user.user_id(),name=self.request.get('party_name'),code = self.request.get('party_code_1'))
+                new_party = Party_(party_creator = user.user_id(),name=self.request.get('party_name'),code = self.request.get('party_code_1'),attending = 1)
 
                 active_user.party_key = new_party.put()
                 active_user.put()
@@ -180,6 +180,7 @@ class CreateParty(webapp2.RequestHandler):
 # Description: Join porty Controller, hadles users joining already exsisting parties
 #
 # Version update: 0.1 added user control statment to check if user is signed in
+# Version updagte 0.3 added post reponse for syncornus joining of party
 #"""
 class JoinParty(webapp2.RequestHandler):
     def get(self):
@@ -201,6 +202,9 @@ class JoinParty(webapp2.RequestHandler):
                 party = Party_.query(Party_.name == self.request.get('party_name'))
                 if party.get():
                     active_user.party_key = party.get(keys_only=True)
+                    active_party = party.get()
+                    active_party.attending += 1
+                    active_party.put()
                     active_user.put()
                     self.redirect('/party')
             else:
@@ -235,7 +239,7 @@ class Party(webapp2.RequestHandler):
         else:
             self.redirect('/')
 """
-# Description: Platlist controller handles the voting of already suggested music
+# Description: Platlist controller handles page for music search to be suggested
 #
 # Version update: 0.1 added user control statment to check if user is signed in
 #"""
@@ -249,9 +253,9 @@ class Playlist(webapp2.RequestHandler):
             self.redirect('/')
 
 """
-# Description:
+# Description: Web main landing page handler
 #
-# Version update:
+# Version update: 0.1 added user control statment to check if user is signed in
 #"""
 class WebMainPage(webapp2.RequestHandler):
     def get(self):
@@ -278,9 +282,9 @@ class WebMainPage(webapp2.RequestHandler):
 
 
 """
-# Description:
+# Description: Handler for the landing page, choose between creating or joining a party
 #
-# Version update:
+# Version update: 0.1 added user control statment to check if user is signed in
 #"""
 class WebLanding(webapp2.RequestHandler):
     def get(self):
@@ -304,9 +308,10 @@ class WebLanding(webapp2.RequestHandler):
         else:
             self.redirect('/web')
 """
-# Description:
+# Description: Handler for the Creation page for a new party
 #
-# Version update:
+# Version update: 0.1 added user control statment to check if user is signed in
+# Version update: 0.2 added post handler for syncornus creation of a party
 #"""
 class WebCreate(webapp2.RequestHandler):
     def get(self):
@@ -336,7 +341,7 @@ class WebCreate(webapp2.RequestHandler):
             #checks if there is an active user in the DB
                 active_user = query.get()
                 name = self.request.get('party_name')
-                new_party = Party_(party_creator = user.user_id(),name=self.request.get('party_name'),code = self.request.get('party_code_1'))
+                new_party = Party_(party_creator = user.user_id(),name=self.request.get('party_name'),code = self.request.get('party_code_1'),attending = 1)
                 active_user.party_key = new_party.put()
                 active_user.put()
                 self.redirect('/web_party')
@@ -345,9 +350,10 @@ class WebCreate(webapp2.RequestHandler):
         else :
             self.redirect('/web')
 """
-# Description:
+# Description:Handler for joining a party
 #
-# Version update:
+# Version update: 0.1 added user control statment to check if user is signed in
+# Version update: 0.2 added post handler for syncornus operation of joining an active party
 #"""
 class WebJoin(webapp2.RequestHandler):
     def get(self):
@@ -369,6 +375,9 @@ class WebJoin(webapp2.RequestHandler):
                 party = Party_.query(Party_.name == self.request.get('party_name'))
                 if party.get():
                     active_user.party_key = party.get(keys_only=True)
+                    active_party = party.get()
+                    active_party.attending += 1
+                    active_party.put()
                     active_user.put()
                     self.redirect('/web_party')
             else:
@@ -377,9 +386,9 @@ class WebJoin(webapp2.RequestHandler):
             self.redirect('/web')
 
 """
-# Description:
+# Description: Handler to control access to the active party page
 #
-# Version update:
+# Version update: 0.1 added user control statment to check if user is signed in
 #"""
 class WebParty(webapp2.RequestHandler):
     def get(self):
@@ -392,7 +401,7 @@ class WebParty(webapp2.RequestHandler):
                 if active_user.party_key != None:
                     logout_url = users.create_logout_url(self.request.uri)
                     template_values={
-                    
+
                     "party_name": active_user.party_key.get().name,
                     }
                     #self.response.write(template.render(template_values))
@@ -407,9 +416,10 @@ class WebParty(webapp2.RequestHandler):
         else:
             self.redirect('/web')
 """
-# Description:
+# Description:  Handler to deal with leaving a party
 #
-# Version update:
+# Version update: 0.1 user check for proper authentication
+# Version update: 0.2 added attending update portion
 #"""
 class LeavePartyWeb(webapp2.RequestHandler):
     def get(self):
@@ -419,6 +429,9 @@ class LeavePartyWeb(webapp2.RequestHandler):
             query = User.query(User.user_id == user.user_id())
             if query.get():
                 active_user = query.get()
+                party = active_user.party.get() #update attedning portion
+                party.attending -= 1
+                party.put()
                 active_user.party_key = None
                 active_user.put()
                 self.redirect('/web_landing')
@@ -426,6 +439,12 @@ class LeavePartyWeb(webapp2.RequestHandler):
                 self.redirect('/web')
         else:
             self.redirect('/web')
+"""
+# Description:  Handler to deal with leaving a party
+#
+# Version update: 0.1 user check for proper authentication
+# Version update: 0.2 added attending update portion
+#"""
 class LeavePartyMobile(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -434,6 +453,9 @@ class LeavePartyMobile(webapp2.RequestHandler):
             query = User.query(User.user_id == user.user_id())
             if query.get():
                 active_user = query.get()
+                party = active_user.party.get() #update attedning portion
+                party.attending -= 1
+                party.put()
                 active_user.party_key = None
                 active_user.put()
                 self.redirect('/landing')

@@ -3,6 +3,7 @@ update_party = function(party_info){
   //document.querySelector("#party_name").innerHTML = party_info.party_name;
   var items= 0;
   var tracks = '';
+
   tracks+= party_info.Activity_list[0].track_id;
   if (party_info.Activity_list.length > 11){
     items = 11;
@@ -13,13 +14,14 @@ update_party = function(party_info){
     tracks+=','+ party_info.Activity_list[i].track_id;
 
   }
-  if(items > 0){
+
     $.ajax({
          url: 'https://api.spotify.com/v1/tracks',
          data: {
            ids: tracks
          },
          success: function (response) {
+
            document.querySelector('#playlist').innerHTML = "";
            tracks = response.tracks;
            //add values for the active song
@@ -60,7 +62,7 @@ update_party = function(party_info){
                song_info_container.appendChild(song);
                card.appendChild(song_info_container);
                card_container.appendChild(card);
-               //add vote number later
+               //add vote number laterthe voting of already suggested music
                document.querySelector('#playlist').appendChild(card_container);
                i++;
                if(i < party_info.Activity_list.length ){ //second column
@@ -103,7 +105,7 @@ update_party = function(party_info){
 
          }
      });
-   }
+   
 };
 /*
 # Description: updates the song info for the cards in the plalist position
@@ -116,7 +118,11 @@ google.appengine.pocketjuke.production.update_party_details = function(){
     "response": document.querySelector("#party_name").innerHTML
   }).execute(function(resp){
     if(!resp.code){
-      update_party(resp);
+      if(resp.Activity_list[0].track_id != 1){
+        update_party(resp);
+      }else{
+        document.querySelector('#attending').innerHTML = resp.attending;
+      }
     }
   });
 

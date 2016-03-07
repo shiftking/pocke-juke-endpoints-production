@@ -86,7 +86,7 @@ class Party_list(messages.Message):
 
 class Party_info(messages.Message):
     Activity_list = messages.MessageField(Activity_class,1,repeated=True)
-    Party_key = messages.StringField(2)
+    attending = messages.IntegerField(2)
     party_name = messages.StringField(3)
 
 
@@ -184,9 +184,9 @@ class PocketJukeAPI(remote.Service):
               for activity in sorted_queue:
                   playlist_queue.append(Activity_class(track_id = activity['track_id']))
 
+              party = party_query.get()
 
-
-              return Party_info(Activity_list = playlist_queue)
+              return Party_info(Activity_list = playlist_queue,attending = party.attending)
           else:
               playlist_queue.append(Activity_class(track_id='1'))
               return Party_info(Activity_list = playlist_queue)
