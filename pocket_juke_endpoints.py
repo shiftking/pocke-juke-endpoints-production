@@ -48,7 +48,7 @@ class Song(ndb.Model):
     track_id = ndb.StringProperty(indexed=True)
     user_suggest = ndb.KeyProperty(indexed=True)
     party_key = ndb.KeyProperty(Party_,indexed=True)
-
+    played = ndb.BooleanProperty()
 
 #NDB datatype for an activity
 class Activity(ndb.Model):
@@ -331,6 +331,28 @@ class PocketJukeAPI(remote.Service):
       else:
           return add_response(response = 'Could not added vote to activity list')
 
+  @endpoints.method(Song_class,add_response,
+                    path='authed_play',http_method='POST',
+                    name='pocketjuke.playAuthed')
+  def play_song(self,request):
+      """Set Play song Flag"""
+      current_user = endpoints.get_current_user()
+      user_query = User.query(User.user_id == current_user.user_id())
+      user = user_query.get()
+      song_query = Song.query(ndb.AND(Song.track_id == request.track_id,Song.party_key == user.party_key))
+
+      if song_query.get():
+          song = song_query.get()
+          if not song.played:
+              song.played = True;
+              song.put()
+
+          #delete all the activities for that song in that party
+          activity_query = Activity.query(Activity.song == song,Activity.party_key == user.party_key).fetch(keys_only=True)
+          ndb.delete_multi(activity_query)
+          return add_response(response = 'Song has been updated')
+
+      return add_response(response = 'song not found')
 
 
 

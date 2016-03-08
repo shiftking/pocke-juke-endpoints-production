@@ -44,11 +44,10 @@ class User(ndb.Model):
 
 #NDB datatype for a song
 class Song(ndb.Model):
-    song_name = ndb.StringProperty()
     track_id = ndb.StringProperty(indexed=True)
     user_suggest = ndb.KeyProperty(indexed=True)
     party_key = ndb.KeyProperty(Party_,indexed=True)
-    playing = ndb.BooleanProperty()
+    played = ndb.BooleanProperty()
 
 
 #NDB datatype for an activity
@@ -338,7 +337,6 @@ class WebCreate(webapp2.RequestHandler):
                 active_user = query.get()
                 name = self.request.get('party_name')
                 new_party = Party_(party_creator = user.user_id(),name=self.request.get('party_name'),code = self.request.get('party_code_1'))
-
                 active_user.party_key = new_party.put()
                 active_user.put()
                 self.redirect('/web_party')
@@ -394,7 +392,7 @@ class WebParty(webapp2.RequestHandler):
                 if active_user.party_key != None:
                     logout_url = users.create_logout_url(self.request.uri)
                     template_values={
-                    "logout_url": logout_url,
+                    
                     "party_name": active_user.party_key.get().name,
                     }
                     #self.response.write(template.render(template_values))

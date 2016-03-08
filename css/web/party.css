@@ -72,7 +72,7 @@
 }
 .active_song{
   width: auto;
-  height: 5vh;
+  height: 6vh;
   background-color: white;
   border-radius: 1vh;
   opacity: 50%;
@@ -105,4 +105,12 @@
 .votes{
   height: 12vh;
   float: left;
+}
+.song-name{
+  font-size: 2vh;
+  width: auto;
+}
+.album-name{
+  width: auto;
+  font-size: 1.5vh;
 }

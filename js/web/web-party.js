@@ -46,13 +46,15 @@ update_party = function(party_info){
 
                //song info
                var song_info_container = document.createElement('div');
-               song_info_container.className = "col-xs-4";
+               song_info_container.className = "col-xs-6";
                var song = document.createElement('div');
                song.className = "song";
                var song_name = document.createElement('p');
                var album_name = document.createElement('p');
                song_name.innerHTML = tracks[i].name;
-               album_name.innerHTML = tracks[i].album.name;
+               song_name.className = 'song-name';
+               album_name.innerHTML = tracks[i].artists[0].name;
+               album_name.className = "album-name";
                song.appendChild(song_name);
                song.appendChild(album_name);
                song_info_container.appendChild(song);
@@ -79,13 +81,15 @@ update_party = function(party_info){
 
                  //song info
                  var song_info_container = document.createElement('div');
-                 song_info_container.className = "col-xs-4";
+                 song_info_container.className = "col-xs-6";
                  var song = document.createElement('div');
                  song.className = "song";
                  var song_name = document.createElement('p');
                  var album_name = document.createElement('p');
                  song_name.innerHTML = tracks[i].name;
-                 album_name.innerHTML = tracks[i].album.name;
+                 song_name.className = 'song-name';
+                 album_name.innerHTML = tracks[i].artists[0].name;
+                 album_name.className = "album-name";
                  song.appendChild(song_name);
                  song.appendChild(album_name);
                  song_info_container.appendChild(song);

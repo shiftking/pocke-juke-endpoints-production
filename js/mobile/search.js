@@ -10,7 +10,8 @@ google.appengine.pocketjuke.production.enableButtons = function(){
 
     var submit_party = document.querySelector('#search_party');
 
-    submit_party.addEventListener('click',function(){
+    submit_party.addEventListener('click',function(event){
+      event.preventDefault();
       google.appengine.pocketjuke.production.search_party();
     });
 };

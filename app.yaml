@@ -19,6 +19,7 @@ handlers:
   static_dir: /tml-templates
 - url: /.*
   script: main.app
+  secure: always
 
 
 
