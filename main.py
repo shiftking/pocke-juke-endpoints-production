@@ -26,7 +26,7 @@ class Party_(ndb.Model):
     party_creator = ndb.StringProperty(indexed=True)
     name = ndb.StringProperty(indexed=True)
     code = ndb.StringProperty(indexed=False)
-    attending = ndb.IntegerProperty(indexed=False)
+    attending = ndb.IntegerProperty()
 
 
 
@@ -429,9 +429,12 @@ class LeavePartyWeb(webapp2.RequestHandler):
             query = User.query(User.user_id == user.user_id())
             if query.get():
                 active_user = query.get()
-                party = active_user.party.get() #update attedning portion
-                party.attending -= 1
-                party.put()
+                party = active_user.party_key.get() #update attedning portion
+                if not party.attending:
+
+			party.attending -= 1
+	                party.put()
+		
                 active_user.party_key = None
                 active_user.put()
                 self.redirect('/web_landing')
@@ -453,9 +456,10 @@ class LeavePartyMobile(webapp2.RequestHandler):
             query = User.query(User.user_id == user.user_id())
             if query.get():
                 active_user = query.get()
-                party = active_user.party.get() #update attedning portion
-                party.attending -= 1
-                party.put()
+                party = active_user.party_key.get() #update attedning portion
+                if party.attending:
+			party.attending -= 1
+                	party.put()
                 active_user.party_key = None
                 active_user.put()
                 self.redirect('/landing')

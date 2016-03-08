@@ -188,8 +188,9 @@ class PocketJukeAPI(remote.Service):
 
               return Party_info(Activity_list = playlist_queue,attending = party.attending)
           else:
+	      party = party_query.get()
               playlist_queue.append(Activity_class(track_id='1'))
-              return Party_info(Activity_list = playlist_queue)
+              return Party_info(Activity_list = playlist_queue,attending = party.attending)
       else:
           playlist_queue.append(Activity_class(track_id='1'))
           return Party_info(Activity_list = playlist_queue)
