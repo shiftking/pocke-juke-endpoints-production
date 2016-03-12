@@ -32,7 +32,7 @@ add_song_info = function(trackID){
 
 google.appengine.pocketjuke.production.vote_song = function(id){
 
-      gapi.client.pocketjuke.pocketjuke.addSongAuthed({"track_id":id}).execute(function(resp){
+      gapi.client.pocketjuke.pocketjuke.voteSongAuthed({"track_id":id}).execute(function(resp){
         if(!resp.code){
           //alert(resp.response);
         }else{
@@ -242,9 +242,9 @@ google.appengine.pocketjuke.production.leave_party = function(){
 google.appengine.pocketjuke.production.enableButtons = function(){
   //alert(localStorage.getItem("session_token"));
   google.appengine.pocketjuke.production.getPartyInfo();
-  document.querySelector('#play_overlay').addEventListener('mouseover',function(){
-    showOverlay(this)
-  });
+  //document.querySelector('#play_overlay').addEventListener('mouseover',function(){
+    //showOverlay(this)
+  //});
   //document.querySelector("#leave_party").addEventListener('click',function(e){
     //alert(document.querySelector("#name").value);
     //google.appengine.pocketjuke.production.leave_party();
