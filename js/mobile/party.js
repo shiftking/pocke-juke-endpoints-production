@@ -32,7 +32,7 @@ add_song_info = function(trackID){
 
 google.appengine.pocketjuke.production.vote_song = function(id){
 
-      gapi.client.pocketjuke.pocketjuke.voteSongAuthed({"track_id":id}).execute(function(resp){
+      gapi.client.pocketjuke.pocketjuke.addSongAuthed({"track_id":id}).execute(function(resp){
         if(!resp.code){
           //alert(resp.response);
         }else{
@@ -199,7 +199,7 @@ google.appengine.pocketjuke.production.getPartyInfo = function(){
             document.querySelector("#more_songs_container").style.position = "absolute";
             $("#more_songs_container").animate({top: "-.1vh",left:"-2vw"},500);
             $("#more_songs_container").animate({height: "95vh"},500);
-            $("#more_songs_container").animate({width: "70vw"},500);
+            $("#more_songs_container").animate({width: "80vw"},500);
 
             setTimeout(google.appengine.pocketjuke.production.secondary_playlist,1700);
             $("#playlist_landing").fadeIn();
@@ -211,7 +211,7 @@ google.appengine.pocketjuke.production.getPartyInfo = function(){
             $("#playlist_landing").fadeOut();
             $("#more_songs_container").animate({top: "+=.1vh",left:"+=2vw"},500);
             $("#more_songs_container").animate({height: "2vh"},500);
-            $("#more_songs_container").animate({width: "61vw"},500);
+            $("#more_songs_container").animate({width: "auto"},500);
             //pause(500);
             document.querySelector("#more_songs_container").style.position = "relative";
             playlist_open = false;
@@ -242,7 +242,9 @@ google.appengine.pocketjuke.production.leave_party = function(){
 google.appengine.pocketjuke.production.enableButtons = function(){
   //alert(localStorage.getItem("session_token"));
   google.appengine.pocketjuke.production.getPartyInfo();
-
+  document.querySelector('#play_overlay').addEventListener('mouseover',function(){
+    showOverlay(this)
+  });
   //document.querySelector("#leave_party").addEventListener('click',function(e){
     //alert(document.querySelector("#name").value);
     //google.appengine.pocketjuke.production.leave_party();
@@ -255,3 +257,6 @@ pause = function(millis) {
   do { curDate = new Date(); }
   while(curDate-date < millis);
 };
+showOverlay = function(e){
+  e.fadeIn();
+}

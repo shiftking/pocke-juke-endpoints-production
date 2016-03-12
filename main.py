@@ -376,7 +376,9 @@ class WebJoin(webapp2.RequestHandler):
                 if party.get():
                     active_user.party_key = party.get(keys_only=True)
                     active_party = party.get()
-                    active_party.attending += 1
+                    if active_party.attending:
+                        active_party.attending += 1
+
                     active_party.put()
                     active_user.put()
                     self.redirect('/web_party')
@@ -430,11 +432,10 @@ class LeavePartyWeb(webapp2.RequestHandler):
             if query.get():
                 active_user = query.get()
                 party = active_user.party_key.get() #update attedning portion
-                if not party.attending:
+                if party.attending:
+                    party.attending -= 1
 
-			party.attending -= 1
-	                party.put()
-		
+                party.put()
                 active_user.party_key = None
                 active_user.put()
                 self.redirect('/web_landing')

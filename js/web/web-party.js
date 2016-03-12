@@ -3,7 +3,7 @@ update_party = function(party_info){
   //document.querySelector("#party_name").innerHTML = party_info.party_name;
   var items= 0;
   var tracks = '';
-
+  document.querySelector("#attending").innerHTML = party_info.attending;
   tracks+= party_info.Activity_list[0].track_id;
   if (party_info.Activity_list.length > 11){
     items = 11;
@@ -25,6 +25,7 @@ update_party = function(party_info){
            document.querySelector('#playlist').innerHTML = "";
            tracks = response.tracks;
            //add values for the active song
+              document.querySelector('.active').id = tracks[0].id;
               document.querySelector('#active_song').style.backgroundImage = "url("+tracks[0].album.images[1].url+")";
               document.querySelector('#active_song').style.backgroundSize = "100% 100%";
               document.querySelector('#active_song_name').innerHTML = tracks[0].name;
@@ -105,7 +106,7 @@ update_party = function(party_info){
 
          }
      });
-   
+
 };
 /*
 # Description: updates the song info for the cards in the plalist position

@@ -1,25 +1,31 @@
 .menu{
-  width: auto;
+
   height: 12vh;
   background-color: #b4b4b4;
-  margin-left: 1vh;
-  margin-right: 1vh;
+  margin-left: .25vh;
+  margin-right: .25vh;
   margin-top: 1vh;
   border-radius: 2.5vh;
-  padding-left: 2.5vh;
-  padding-right: 2.5vh;
+  padding-left: .5vh;
+  padding-right: .5vh;
   position: relative;
 }
 .landing{
   top: 3vh;
   height: 95vh !important;
+
+}
+.play_overlay{
+  display: none;
+  background-color: lightgrey;
+  opacity: 50;
 }
 .playing_active{
-  margin-left: 1vh;
-  margin-right: 1vh;
+  margin-left: .25vh;
+  margin-right: .25vh;
   margin-top: 1vh;
-  border-radius: 2.5vh;
-  width: auto;
+  border-radius: 1vh;
+
   height: 80vh;
   background-color: #b4b4b4;
   padding-top: 1vh;
@@ -33,10 +39,11 @@
   margin-bottom: 1vh;
   margin-left: 1vh;
   height: 10vh;
-  width: 10vh;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
   background-color: white;
   border-radius: 2.5vh;
-  float: left;
+
   padding-top: 3vh;
   text-align: center;
 }
@@ -45,23 +52,25 @@
   margin-top: 1vh;
   margin-bottom: 1vh;
   margin-left: 1vh;
+  margin-right: 1vh;
 
   height: 10vh;
-  width: 28vw;
+
   position: relative;
   background-color: white;
   border-radius: 2.5vh;
-  float: left;
+
   padding-top: 3vh;
   text-align: center;
 }
 
 .party_playlist{
-  margin-right: 1vh;
+
   margin-top: 1vh;
   margin-bottom: 1vh;
   height: 10vh;
-  width: 10vh;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
   background-color: white;
   border-radius: 2.5vh;
   float:  right;
@@ -132,6 +141,7 @@
   margin-right: 2vw;
   margin-top: .5vh;
 
+
 }
 .close_pl_active{
 
@@ -156,8 +166,8 @@
   margin-bottom: auto;
 }
 .song_card{
-  width: 32.5vw;
-  height:19.5vh;
+  width: 40.5vw;
+  height:23.5vh;
   background-color: white;
   border-radius: 1.5vh;
   border: solid black 2px;
