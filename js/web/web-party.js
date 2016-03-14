@@ -5,6 +5,8 @@ var playing = false;
 var update = false;
 //local variable to keep track of weather the staus of the song has been update_party_details
 var updated = false;
+
+var player;
 pause = function(millis) {
   var date = new Date();
   var curDate = null;
@@ -48,6 +50,7 @@ update_party = function(party_info){
               document.querySelector('#active_song').style.backgroundImage = "url("+tracks[0].album.images[1].url+")";
               document.querySelector('#active_song').style.backgroundSize = "100% 100%";
               document.querySelector('#active_song_name').innerHTML = tracks[0].name;
+              document.querySelector('#active_artist_name').innerHTML = tracks[0].artists[0].name;
               //reload the audio for this song into the item frame
               var name = tracks[0].name +','+tracks[0].artists[0].name ;
               google.appengine.pocketjuke.production.load_song(name);
@@ -79,13 +82,13 @@ update_party = function(party_info){
                var song = document.createElement('div');
                song.className = "song";
                var song_name = document.createElement('p');
-               var album_name = document.createElement('p');
+               var artist_name = document.createElement('p');
                song_name.innerHTML = tracks[i].name;
                song_name.className = 'song-name';
-               album_name.innerHTML = tracks[i].artists[0].name;
-               album_name.className = "album-name";
+               artist_name.innerHTML = tracks[i].artists[0].name;
+               artist_name.className = "album-name";
                song.appendChild(song_name);
-               song.appendChild(album_name);
+               song.appendChild(artist_name);
                song_info_container.appendChild(song);
                card.appendChild(song_info_container);
                card_container.appendChild(card);
@@ -114,13 +117,13 @@ update_party = function(party_info){
                  var song = document.createElement('div');
                  song.className = "song";
                  var song_name = document.createElement('p');
-                 var album_name = document.createElement('p');
+                 var artist_name = document.createElement('p');
                  song_name.innerHTML = tracks[i].name;
                  song_name.className = 'song-name';
-                 album_name.innerHTML = tracks[i].artists[0].name;
-                 album_name.className = "album-name";
+                 artist_name.innerHTML = tracks[i].artists[0].name;
+                 artist_name.className = "album-name";
                  song.appendChild(song_name);
-                 song.appendChild(album_name);
+                 song.appendChild(artist_name);
                  song_info_container.appendChild(song);
                  card.appendChild(song_info_container);
                  card_container.appendChild(card);
@@ -146,16 +149,18 @@ google.appengine.pocketjuke.production.enableButtons = function(){
 
     leave_party();
   });
-  document.querySelector('#play_song').addEventListener('click',function(){
+  document.querySelector('#play').addEventListener('click',function(){
     //$('#play_overlay').fadeIn();
 
     if(updated){//server has been updated
       if(playing){//song is palying
         stopVideo();
         playing =false
+        document.querySelector("#status").innerHTML = 'Play';
       }else{//song is not playing
         startVideo();
-        playing = false;
+        playing = true;
+        document.querySelector("#status").innerHTML = 'Pause';
       }
     }else{ //server has not been updated
       if(!playing){
@@ -167,6 +172,9 @@ google.appengine.pocketjuke.production.enableButtons = function(){
       }
     }
     //google.appengine.pocketjuke.production.get_video_id(document.querySelector('#active_song_name').innerHTML);
+  });
+  document.querySelector('#skip').addEventListener('click',function(){
+    skipSong();
   });
   google.appengine.pocketjuke.production.update_party_details();
   setInterval(function(){
@@ -226,7 +234,8 @@ google.appengine.pocketjuke.production.load_song = function(name){
     var results = gapi.client.youtube.search.list({
       q: name,
       part: 'snippet',
-      maxResults: 1
+      maxResults: 1,
+      order: 'relevance'
     }).execute(function(resp){
       //created = true;
 
@@ -246,15 +255,13 @@ google.appengine.pocketjuke.production.load_song = function(name){
 function onPlayerStateChange(event) {
       switch(event.data){
         case 0:
+
             google.appengine.pocketjuke.production.update_playing_status_false();
             break;
         case 1:
             google.appengine.pocketjuke.production.update_playing_status_true();
           break;
-            //setTimeout(startVideo(),7500);
-        case 2:
-            // /startVideo();
-          break;
+
       }
 };
 
@@ -262,7 +269,7 @@ function onPlayerStateChange(event) {
 function onPlayerReady(event) {
 
 };
-var player;
+
 
 function onYouTubeIframeAPIReady() {
   //alert('loading Iframe');
@@ -276,10 +283,16 @@ function onYouTubeIframeAPIReady() {
     }
   });
 };
+function skipSong(){
 
+  player.pauseVideo();
+  google.appengine.pocketjuke.production.update_playing_status_false();
+  google.appengine.pocketjuke.production.update_party_details();
+}
 
 function stopVideo() {
   player.pauseVideo();
+
 };
 function startVideo(){
 

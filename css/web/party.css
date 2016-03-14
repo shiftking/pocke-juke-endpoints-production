@@ -18,33 +18,32 @@
   border-radius: 1vh;
 }
 .landing{
-  margin-top: 1.5vh;
+
   height: 96vh !important;
 }
 .party_menu{
   height: 25vh;
   margin-top: 2.5vh;
+  padding-top: 5vh;
 }
 .party_name{
   text-align: center;
-  height: 8vh;
-  margin-top: 4vh;
-  margin-bottom: 2vh;
-  margin-left: 2vw;
-  margin-right: 2vw;
+  height: 6vh;
+
+
+
   width: auto;
-  padding-top: 3vh;
+  padding-top: 1vh;
   background-color: lightgrey;
   border-radius: 1vh;
 }
 .leave_party{
-  padding-top: 3vh;
+  padding-top: 1vh;
   border-radius: 1vh;
   text-align: center;
-  height: 8vh;
+  height: 4vh;
   width: auto;
-  margin-left: 2vw;
-  margin-right: 2vw;
+
   background-color: lightgrey;
 }
 .title{
@@ -76,10 +75,11 @@
   background-color: white;
   border-radius: 1vh;
   opacity: 50%;
+  padding-left: 1vw;
 }
 .active_album{
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 2vw;
+  margin-right: 2vw;
   width: 15vw;
   padding-top: 20vh;
   border-radius: 1vh;
@@ -116,4 +116,21 @@
 }
 .player{
   display: none;
+}
+.toggle_play_status_container{
+  height: 4vh;
+}
+.toggle_play_status{
+  text-align: center;
+  padding-top: 1vh;
+}
+.skip_song_container{
+
+}
+.skip_song{
+  text-align: center;
+  padding-top: 1vh;
+}
+.player_control{
+  margin-top: 2.5vh;
 }

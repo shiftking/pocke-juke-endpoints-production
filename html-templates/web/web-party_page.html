@@ -44,35 +44,58 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-xs-4 col-md-6 col-lg-6">
+                  <div class="col-xs-4 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
 
                     <div class="active">
-                      <div id="player"></div>
-                      <a href="#" id="play_song">
+
+
                       <div class="play_overlay" id="play_overlay">
                         <div class="active_album" id="active_song">
 
-                          <div class="active_song" id="active_song_name">
-
+                          <div class="active_song" >
+                            <p class="song-name" id="active_song_name"></p>
+                            <p class="album-name" id="active_artist_name"></p>
                           </div>
-                          <div id="player"></div>
+
                         </div>
                       </div>
-                    </a>
+
                     </div>
                   </div>
-                  <div class="col-xs-4 col-md-4 col-lg-2">
+                  <div class="col-xs-4 col-md-4 col-lg-4">
+
                     <div class="party_menu">
-                      <a href="#">
-                        <div class="party_name">
-                          <p id="party_name">{{party_name}}</p>
+                      <div class="row">
+                        <a href="#">
+                          <div class="party_name col-xs-4 col-xs-offset-1">
+                            <p id="party_name">{{party_name}}</p>
+                          </div>
+                        </a>
+                        <a href="#" id="leave_party">
+                          <div class="leave_party col-xs-4 col-xs-offset-1">
+                            <p>Leave Party</p>
+                          </div>
+                        </a>
+                      </div>
+                      <div class="row">
+                        <div class="player_control">
+                          <a href="#" id="play">
+                            <div class="party_name col-xs-4 col-xs-offset-1">
+                              <div class="toggle_play_status">
+                                <p id="status">Play</P>
+                              </div>
+                            </div>
+                          </a>
+                          <a href="#" id="skip">
+                            <div class="party_name col-xs-4 col-xs-offset-1">
+                              <div class="skip_song">
+                                <p>Skip Song</p>
+                              </div>
+                            </div>
+                          </a>
+
                         </div>
-                      </a>
-                      <a href="#" id="leave_party">
-                        <div class="leave_party">
-                          <p>Leave Party</p>
-                        </div>
-                      </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -91,6 +114,7 @@
 
 
       </div>
+      <div id="player"></div>
       <script>
             function init() {
                 google.appengine.pocketjuke.production.init('//' + window.location.host + '/_ah/api');
@@ -107,7 +131,7 @@
 
             // 3. This function creates an <iframe> (and YouTube player)
             //    after the API code downloads.
-            
+
 
 
 
