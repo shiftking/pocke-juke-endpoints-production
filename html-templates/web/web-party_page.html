@@ -47,13 +47,18 @@
                   <div class="col-xs-4 col-md-6 col-lg-6">
 
                     <div class="active">
-                      <div class="active_album" id="active_song">
-                        <div class="play_overlay" id="play_overlay">
+                      <div id="player"></div>
+                      <a href="#" id="play_song">
+                      <div class="play_overlay" id="play_overlay">
+                        <div class="active_album" id="active_song">
+
                           <div class="active_song" id="active_song_name">
-                            
+
                           </div>
+                          <div id="player"></div>
                         </div>
                       </div>
+                    </a>
                     </div>
                   </div>
                   <div class="col-xs-4 col-md-4 col-lg-2">
@@ -92,5 +97,22 @@
             }
       </script>
       <script src="https://apis.google.com/js/client.js?onload=init"></script>
+      <script>
+            // 2. This code loads the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
+
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            
+
+
+
+
+        </script>
+
   </body>
 </html>

@@ -19,7 +19,7 @@
 //google.appengine.pocketjuke.production = '490877078433-t9spjdkqmkqe8c3c3jbgrgot9lrhgu86.apps.googleusercontent.com';
 
 google.appengine.pocketjuke.production.CLIENT_ID  = '490877078433-t9spjdkqmkqe8c3c3jbgrgot9lrhgu86.apps.googleusercontent.com';
-google.appengine.pocketjuke.production.SCOPES = 'https://www.googleapis.com/auth/userinfo.email';
+google.appengine.pocketjuke.production.SCOPES = ['https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/youtube'];
 
 
 
@@ -57,7 +57,8 @@ google.appengine.pocketjuke.production.init = function(apiRoot) {
     }
   }
 
-  apisToLoad = 2; // must match number of calls to gapi.client.load()1
+  apisToLoad = 3; // must match number of calls to gapi.client.load()1
   gapi.client.load('pocketjuke', 'v1', callback, apiRoot);
   gapi.client.load('oauth2', 'v2', callback);
+  gapi.client.load('youtube','v3',callback);
 };

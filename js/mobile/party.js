@@ -242,9 +242,7 @@ google.appengine.pocketjuke.production.leave_party = function(){
 google.appengine.pocketjuke.production.enableButtons = function(){
   //alert(localStorage.getItem("session_token"));
   google.appengine.pocketjuke.production.getPartyInfo();
-  //document.querySelector('#play_overlay').addEventListener('mouseover',function(){
-    //showOverlay(this)
-  //});
+
   //document.querySelector("#leave_party").addEventListener('click',function(e){
     //alert(document.querySelector("#name").value);
     //google.appengine.pocketjuke.production.leave_party();
@@ -257,6 +255,3 @@ pause = function(millis) {
   do { curDate = new Date(); }
   while(curDate-date < millis);
 };
-showOverlay = function(e){
-  e.fadeIn();
-}
