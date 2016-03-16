@@ -207,28 +207,6 @@ google.appengine.pocketjuke.production.update_party_details = function(){
   });
 
 };
-
-
-
-
-google.appengine.pocketjuke.production.update_playing_status_true = function(){
-
-    gapi.client.pocketjuke.pocketjuke.playAuthed({
-      "track_id": document.querySelector('.active').id
-    }).execute(function(resp){
-      if(!resp.code){
-
-      }
-    });
-
-};
-google.appengine.pocketjuke.production.update_playing_status_false = function(){
-  gapi.client.pocketjuke.pocketjuke.stopAuthed({
-    "track_id": document.querySelector('.active').id
-  }).execute(function(resp){
-    google.appengine.pocketjuke.production.update_party_details();
-  });
-};
 google.appengine.pocketjuke.production.load_song = function(name){
 
     var results = gapi.client.youtube.search.list({
@@ -252,51 +230,23 @@ google.appengine.pocketjuke.production.load_song = function(name){
 
 };
 
-function onPlayerStateChange(event) {
-      switch(event.data){
-        case 0:
 
-            google.appengine.pocketjuke.production.update_playing_status_false();
-            break;
-        case 1:
-            google.appengine.pocketjuke.production.update_playing_status_true();
-          break;
+
+google.appengine.pocketjuke.production.update_playing_status_true = function(){
+
+    gapi.client.pocketjuke.pocketjuke.playAuthed({
+      "track_id": document.querySelector('.active').id
+    }).execute(function(resp){
+      if(!resp.code){
 
       }
-};
-
-
-function onPlayerReady(event) {
+    });
 
 };
-
-
-function onYouTubeIframeAPIReady() {
-  //alert('loading Iframe');
-  player = new YT.Player('player', {
-    height: '0',
-    width: '0',
-    videoId: '',
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
+google.appengine.pocketjuke.production.update_playing_status_false = function(){
+  gapi.client.pocketjuke.pocketjuke.stopAuthed({
+    "track_id": document.querySelector('.active').id
+  }).execute(function(resp){
+    google.appengine.pocketjuke.production.update_party_details();
   });
-};
-function skipSong(){
-
-  player.pauseVideo();
-  google.appengine.pocketjuke.production.update_playing_status_false();
-  google.appengine.pocketjuke.production.update_party_details();
-}
-
-function stopVideo() {
-  player.pauseVideo();
-
-};
-function startVideo(){
-
-  player.setVolume(30);
-  player.playVideo();
-
 };

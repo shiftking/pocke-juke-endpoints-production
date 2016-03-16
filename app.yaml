@@ -11,6 +11,8 @@ handlers:
   script: pocket_juke_endpoints.APPLICATION
 - url: /css
   static_dir: css
+- url: /media-control
+  static_dir: js/
 - url: /js
   static_dir: js
 - url: /.*
