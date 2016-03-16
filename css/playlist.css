@@ -27,3 +27,13 @@
   color:black;
   opacity: none;
 }
+.landing{
+  height: 94.5vh !important ;
+}
+.return_button{
+  height: 2.5vh;
+  margin-top: .5vh;
+  width: auto;
+  background-color: grey;
+  border-radius: 1.5vh;
+}

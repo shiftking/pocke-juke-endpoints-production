@@ -1,4 +1,4 @@
-application: pj-mobile-production
+pplication: pj-mobile-production
 module: default
 version: 1
 runtime: python27
@@ -11,13 +11,10 @@ handlers:
   script: pocket_juke_endpoints.APPLICATION
 - url: /css
   static_dir: css
-- url: /media-control
-  static_dir: js/
 - url: /js
   static_dir: js
 - url: /.*
-  script: main.app
-  secure: always
+  script: main.ap
 - url: /html-templates
   static_dir: /tml-templates
 

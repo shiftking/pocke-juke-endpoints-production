@@ -180,18 +180,9 @@ class PocketJukeAPI(remote.Service):
                       pre_entry = entry
 
               sorted_queue = sorted(queue, key=operator.itemgetter('weight'),reverse=True)
-              #add the marked song that is in the active position
-              song = Song.query(ndb.AND(Song.party_key == party_query.get(keys_only=True),Song.played == True))
-
-              if song.get():
-                  active_song = song.get()
-                  playlist_queue.append(Activity_class(track_id = active_song.track_id));
-              else:
-                  active_song = Activity_class(track_id = '0')
 
               for activity in sorted_queue:
-                  if not activity['track_id'] == active_song.track_id:
-                      playlist_queue.append(Activity_class(track_id = activity['track_id']))
+                  playlist_queue.append(Activity_class(track_id = activity['track_id']))
 
               party = party_query.get()
 
@@ -267,49 +258,7 @@ class PocketJukeAPI(remote.Service):
 
 
 
-  @endpoints.method(Song_class,add_response,
-                    path='authed_play',http_method='POST',
-                    name='pocketjuke.playAuthed')
-  def play_song(self,request):
-      """Set Play song Flag"""
-      current_user = endpoints.get_current_user()
-      user_query = User.query(User.user_id == current_user.user_id())
-      user = user_query.get()
-      song_query = Song.query(ndb.AND(Song.track_id == request.track_id,Song.party_key == user.party_key))
 
-      if song_query.get():
-          song = song_query.get()
-          if not song.played:
-              song.played = True;
-              song.put()
-          #delete all the activities for that song in that party
-          activity_query = Activity.query(Activity.song == song.key,Activity.party_key == user.party_key).fetch(keys_only=True)
-          ndb.delete_multi(activity_query)
-
-          return add_response(response = 'Song has been updated')
-      else:
-          return add_response(response = 'song not found')
-
-  @endpoints.method(Song_class,add_response,
-                  path='authed_stop',http_method='POST',
-                  name='pocketjuke.stopAuthed')
-  def stop_song(self,request):
-      """Unmarks the palying song so it can be voted on"""
-      current_user = endpoints.get_current_user()
-      user_query = User.query(User.user_id == current_user.user_id())
-      user = user_query.get()
-      song_query = Song.query(ndb.AND(Song.track_id == request.track_id,Song.party_key == user.party_key))
-
-      if song_query.get():
-          song = song_query.get()
-          if song.played:
-              song.played = False;
-              song.put()
-
-
-          return add_response(response = 'Song has been updated')
-      else:
-          return add_response(response = 'song not found')
 
 
 
@@ -349,20 +298,48 @@ class PocketJukeAPI(remote.Service):
           return add_response(response="Joined party")
       else:
           return add_response(response="Unable to Join Party")
+  
+
   @endpoints.method(Song_class,add_response,
                     path='authed_addSong',http_method='POST',
                     name='pocketjuke.addSongAuthed')
   def add_song(self,request):
+      """Description:
+            Rest api control handler that adds a suggested song to the 
+            database referencing the party the user is attending
+	 
+	 Incoming  Parameters:
+            Song_class:
+              -track_id  ---  Unique identifier for a specific song
+
+         Core functionality:
+              If the song_id that is being added has not been added 
+              before will be added into the database with the parent 
+              key(party_key) which is the one the user is attending.
+
+              If the song has already been added, then a new activity is added
+              for the party the user is attending
+         Outcomes: 
+              IN DB: Adds an activity for that users party
+	      NOT IN DB: Adds as a new song entry for that users  party
+	      Error case: handled by the apropriate expection case built into the endpoints library
+         Outgoing Parameters:
+            add_response:
+              -response   ---  Message returned back to the client 
+                               calling this handler, details of the that response 
+                               depending on weather the addition was successful 
+                               or if was already added     
+      """
       current_user = endpoints.get_current_user()
       user_query = User.query(User.user_id == current_user.user_id())
       user = user_query.get()
       party_query = user.party_key.get()
       song_query = Song.query(ndb.AND(Song.track_id == request.track_id,Song.party_key == user.party_key))
-      if not song_query.get():
-          new_song = Song(track_id = request.track_id, user_suggest = user_query.get(keys_only=True),party_key = user.party_key,played = False)
+      if not song_query.get(): #if the song is not in the database
+          new_song = Song(track_id = request.track_id, user_suggest = user_query.get(keys_only=True),party_key = user.party_key)
           new_song.put()
           return add_response(response='Added song as a suggestion')
-      else:
+      else: #if the song is in the database create a new activity for that party refenecing that song
           new_activity = Activity(song=song_query.get(keys_only=True),party_key=user.party_key,user_vote=user_query.get(keys_only=True))
           new_activity.put()
           return add_response(response='Song already added as suggestion will consider this as a vote')
@@ -371,7 +348,6 @@ class PocketJukeAPI(remote.Service):
                     path='authed_voteSong',http_method="POST",
                     name='pocketjuke.voteSongAuthed')
   def vote_song(self,request):
-
       current_user = endpoints.get_current_user()
       user_query = User.query(User.user_id == current_user.user_id())
       user = user_query.get()
@@ -384,6 +360,28 @@ class PocketJukeAPI(remote.Service):
       else:
           return add_response(response = 'Could not added vote to activity list')
 
+  @endpoints.method(Song_class,add_response,
+                    path='authed_play',http_method='POST',
+                    name='pocketjuke.playAuthed')
+  def play_song(self,request):
+      """Set Play song Flag"""
+      current_user = endpoints.get_current_user()
+      user_query = User.query(User.user_id == current_user.user_id())
+      user = user_query.get()
+      song_query = Song.query(ndb.AND(Song.track_id == request.track_id,Song.party_key == user.party_key))
+
+      if song_query.get():
+          song = song_query.get()
+          if not song.played:
+              song.played = True;
+              song.put()
+
+          #delete all the activities for that song in that party
+          activity_query = Activity.query(Activity.song == song,Activity.party_key == user.party_key).fetch(keys_only=True)
+          ndb.delete_multi(activity_query)
+          return add_response(response = 'Song has been updated')
+
+      return add_response(response = 'song not found')
 
 
 

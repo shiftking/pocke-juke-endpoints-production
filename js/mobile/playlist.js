@@ -1,6 +1,6 @@
 google.appengine.pocketjuke.production.signin = function(callback) {
   gapi.auth.authorize({client_id: google.appengine.pocketjuke.production.CLIENT_ID,
-      scope: google.appengine.pocketjuke.production.SCOPES, immediate: true},
+      scope: google.appengine.pocketjuke.production.SCOPES, immediate: localStorage.getItem("logged")},
       callback);
 };
 google.appengine.pocketjuke.production.enableButtons = function(){
@@ -83,6 +83,13 @@ var printSongs = function(resp){
       document.querySelector("#results").appendChild(row);
 
     }
+    var return_button = document.createElement('div');
+    return_button.className = "return_button";
+    return_button.addEventListener('click',function(){
+      window.location.href = '/party';
+    });
+    document.querySelector('#results').appendChild(return_button);
+
   }else{
     //insert a fail card
   }

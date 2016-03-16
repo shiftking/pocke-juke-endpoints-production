@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
       <link rel="stylesheet" href="css/style_index.css">
-      <link rel="stylesheet" href="css/animation.css">
-      <link rel="stylesheet" href="css/party.css">
+
+      <link rel="stylesheet" href="css/web/party.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
       <meta charset="utf-8">
@@ -11,9 +11,11 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-      <script src="js/base.js"></script>
+      <script src="/js/media-control/control-scripts.js"></script>
+      <script src="js/web/base.js"></script>
       <script src="js/web/web-party.js"></script>
-      <script src="js/animation/animation.js"></script>
+
+
 
   </head>
   <body>
@@ -27,135 +29,116 @@
       </div>
       <div class="background-secondary-right">
       </div>
-            <div class="container_body container">
-              <ul class="nav nav-pills">
-                <li role="presentation" class="active"><a href="#" id="party_name">{{party_name}}</a></li>
-                <li role="presentation"><a href="/leave_web" id="">Leave Party</a></li>
-                <li role="presentation"><a href="#">Details</a></li>
-              </ul>
-              <div class="row">
-                <div class="col-sm-10 col-sm-offset-1 page-top-padding ">
-                  <div class="row">
-                    <div class="col-sm-2 col-sm-offset-4 ">
+            <div class="container_body ">
 
-                        <div class="player play-control-padding">
-                          <div class="re-wind">
-                          </div>
-                          <div class="play">
-                          </div>
-                          <div class="fast-forward">
-                          </div>
 
-                        </div>
+              <div class="container-fluid">
+                <div class="landing col-lg-8 col-md-8 col-md-offset-2 col-lg-offset-2 col-xs-8 col-xs-offset-2">
 
+                <div class="row">
+                  <div class="col-lg-offset-1 col-xs-4 col-md-4 col-lg-2 ">
+                    <div class="attending">
+                      <div class="title">
+                        <p>Attending</p>
+                      </div>
+                      <div class="attending_number">
+                        <p id="attending"></p>
                       </div>
                     </div>
-                    <div class="row">
-                    <!--Queue Div list-->
-                      <div class="col-sm-3 col-sm-offset-4 queue-padding">
+                  </div>
+                  <div class="col-xs-4 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
 
-                            <div id="card_0" class="card-main">
-                              <div id="card_0_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_0_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_1" class="card-main">
-                              <div  id="card_1_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_1_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_2" class="card-main">
-                              <div  id="card_2_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_2_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_3" class="card-main">
-                              <div  id="card_3_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name"  id="card_3_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_4" class="card-main">
-                              <div  id="card_4_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_4_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_5" class="card-main">
-                              <div id="card_5_inner"  class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_5_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_6" class="card-main">
-                              <div  id="card_6_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_6_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_7" class="card-main">
-                              <div  id="card_7_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_7_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_8" class="card-main">
-                              <div  id="card_8_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_8_name"></p>
-                              </div>
-                            </div>
-                            <div id="card_9" class="card-main">
-                              <div id="card_9_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name"  id="card_9_name"></p>
-                              </div>
-                            </div>
+                    <div class="active">
 
-                            <!--Playing Div -->
-                            <div  id="card_10" class="card-main">
-                              <div  id="card_10_inner" class="card-inner">
-                              </div>
-                              <div>
-                                <p class="card_name" id="card_10_name"></p>
-                              </div>
-                            </div>
 
+                      <div class="play_overlay" id="play_overlay">
+                        <div class="active_album" id="active_song">
+
+                          <div class="active_song" >
+                            <p class="song-name" id="active_song_name"></p>
+                            <p class="album-name" id="active_artist_name"></p>
                           </div>
-                      </div>
-                      <div class="row ">
-                        <div class="col-sm-8 suggestion-padding">
-                          <div class="user-suggestion">
-                          </div>
+
                         </div>
                       </div>
 
+                    </div>
+                  </div>
+                  <div class="col-xs-4 col-md-4 col-lg-4">
+
+                    <div class="party_menu">
+                      <div class="row">
+                        <a href="#">
+                          <div class="party_name col-xs-4 col-xs-offset-1">
+                            <p id="party_name">{{party_name}}</p>
+                          </div>
+                        </a>
+                        <a href="#" id="leave_party">
+                          <div class="leave_party col-xs-4 col-xs-offset-1">
+                            <p>Leave Party</p>
+                          </div>
+                        </a>
+                      </div>
+                      <div class="row">
+                        <div class="player_control">
+                          <a href="#" id="play">
+                            <div class="party_name col-xs-4 col-xs-offset-1">
+                              <div class="toggle_play_status">
+                                <p id="status">Play</P>
+                              </div>
+                            </div>
+                          </a>
+                          <a href="#" id="skip">
+                            <div class="party_name col-xs-4 col-xs-offset-1">
+                              <div class="skip_song">
+                                <p>Skip Song</p>
+                              </div>
+                            </div>
+                          </a>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="playlist" id ="playlist">
+
+
+
+                    </div>
+                  </div>
                 </div>
               </div>
-
-
-
             </div>
+          </div>
+
 
       </div>
+      <div id="player"></div>
       <script>
             function init() {
                 google.appengine.pocketjuke.production.init('//' + window.location.host + '/_ah/api');
             }
       </script>
       <script src="https://apis.google.com/js/client.js?onload=init"></script>
+      <script>
+            // 2. This code loads the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
+
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+
+
+
+
+
+        </script>
+
   </body>
 </html>

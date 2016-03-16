@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
       <link rel="stylesheet" href="css/style_index.css">
-      <link rel="stylesheet" href="css/party.css">
+      <link rel="stylesheet" href="css/mobile/party.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Latest compiled and minified JavaScript -->
-      <script async src="js/base.js"></script>
+      <script async src="js/mobile/base.js"></script>
       <script async src="js/mobile/party.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -25,37 +25,37 @@
           </div>
             <div class="background-secondary-right">
             </div>
-            <div class="container_body ">
+            <div class="container_body container-fluid">
               <div class="row">
-                <div class="col-xs-offset-2    col-xs-8  landing">
+                <div class="col-xs-offset-1    col-xs-10  landing">
 
 
                     <div class="row">
-                      <div class="menu">
-                        <div class="row">
-                          <div class="no_padding">
+                      <div class="menu ">
+
+                          <div class="col-xs-2 party_icon">
                             <a id=""href="/leave_mobile">
-                              <div class="party_icon">
+                              <div class="">
                                 <p>Leave Party</p>
                               </div>
 
                           </a>
                           </div>
-                          <div class="no_padding">
+                          <div class="col-xs-7 party_name">
                             <a href="#">
-                              <div class="party_name">
+                              <div class="">
                                 <p id="party_name">{{party_name}}</p>
                               </div>
                             </a>
                           </div>
-                          <div class=" no_padding">
-                            <a href="/playlist">
-                              <div class="party_playlist">
+                          <div class="col-xs-2 party_playlist">
+                            <a href="/playlist ">
+                              <div class="">
                                 <p>PlayList</p>
                               </div>
                             </a>
                           </div>
-                        </div>
+
                       </div>
                     </div>
                     <div class="row">
@@ -67,18 +67,13 @@
                         </div>
                         <div class="queue" id="queue">
                           <a href="#" id="more_songs">
-                            <div class="more_songs" id="">
-                              <div class="playlist_landing" id="playlist_landing" >
+                            <div class="more_songs" id="more_songs_container">
+                              <div class="playlist_landing  container" id="playlist_landing" >
                               </div>
                             </div>
                           </a>
                         </div>
-                        <a href="#" id="more_songs">
-                          <div class="more_songs" id="more_songs_container">
-                            <div class="playlist_landing  container" id="playlist_landing" >
-                            </div>
-                          </div>
-                        </a>
+
                       </div>
                     </div>
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <link rel="stylesheet" href="css/animation.css">
+      <link rel="stylesheet" href="css/web/animation.css">
       <link rel="stylesheet" href="css/style_index.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-      <script src="js/base.js"></script>
+      <script src="js/web/base.js"></script>
       <script src="js/web/web-create.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="row">
                       <div class="col-sm-6 col-sm-offset-1">
-                        <form class="form-group form-group-lg">
+                        <form class="form-group form-group-lg" method="post">
                               <div class="container">
 
                                 <div class="row _10px_offset">
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="row">
                                   <div class="col-sm-5 _20px_offset">
-                                    <input class="form-control" id="party_name" type="text" placeholder="Party Name">
+                                    <input class="form-control" id="party_name" name="party_name" type="text" placeholder="Party Name">
                                   </div>
                                 </div>
                                 <div class="row _20px_offset">
@@ -48,12 +48,12 @@
                                 </div>
                                 <div class="row">
                                   <div class="col-sm-5 _10px_offset">
-                                    <input class="form-control" id="party_code_1" type="text" placeholder="Password Code">
+                                    <input class="form-control" id="party_code_1" name="party_code_1" type="text" placeholder="Password Code">
                                   </div>
                                 </div>
                                 <div class="row">
                                   <div class="col-sm-5 _20px_offset">
-                                  <input class="form-control" id="party_code_2" type="password" placeholder="Password Codes must match">
+                                  <input class="form-control" id="party_code_2" name="party_code_2" type="password" placeholder="Password Codes must match">
                                   </div>
                                 </div>
                                 <div class="row _20px_offset">
@@ -67,7 +67,7 @@
                                     <input type="file" id="exampleInputFile">
                                   </div>
                                   <div class="col-sm-3 _20px_offset">
-                                    <button id="create_party" type="click"class="btn btn-lg main">Submit</button>
+                                    <button id="create_party" type="submit"class="btn btn-lg main">Submit</button>
                                   </div>
 
                                 </div>
