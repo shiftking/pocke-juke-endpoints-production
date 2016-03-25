@@ -158,7 +158,9 @@
   display: none;
 }
 .playlist_landing{
- display: none;
+  border-radius: 3vh;
+  background-color: #7d7b73;
+  display: none;
 }
 .song_name{
   text-align: center;

@@ -107,9 +107,12 @@ class PocketJukeAPI(remote.Service):
                     name='pocketjuke.getpartyinfoAuthed')
   def get_partyInfo(self,request):
       party_query = Party_.query(Party_.name == request.response)
+      active_user = endpoints.get_current_user();
       playlist_queue = []
       if party_query.get():
-
+          #request_party = party_query.get()
+          #user = User.query(User.user_id == active_user.user_id())
+          #if  party_query.get(keys_only=True) == user.party_key:
           activity_query = Activity.query(Activity.party_key == party_query.get(keys_only=True)).order(Activity.song,Activity.time_stamp)
           if activity_query.get():
 
@@ -197,13 +200,12 @@ class PocketJukeAPI(remote.Service):
 
               return Party_info(Activity_list = playlist_queue,attending = party.attending)
           else:
-	      party = party_query.get()
+              party = party_query.get()
               playlist_queue.append(Activity_class(track_id='1'))
               return Party_info(Activity_list = playlist_queue,attending = party.attending)
       else:
-          playlist_queue.append(Activity_class(track_id='1'))
+          playlist_queue.append(Activity_class(track_id='2'))
           return Party_info(Activity_list = playlist_queue)
-
   @endpoints.method(Party_class,add_response,
                     path='authed_addParty',http_method='PUT',
                     name='pocketjuke.addPartyAuthed')
@@ -212,15 +214,18 @@ class PocketJukeAPI(remote.Service):
       if not party_query.get():
           current_user = endpoints.get_current_user()
           user_query = User.query(User.user_id == current_user.user_id())
-          user = user_query.get()
+          if user_query:
+              user = user_query.get()
 
-          new_party = Party_(name = request.name,party_creator = user_query.get(keys_only=True),code = request.code,attending =+1)
+              new_party = Party_(name = request.name,party_creator = user_query.get(keys_only=True),code = request.code,attending =+1)
 
-          user.party_key = new_party.put()
-          user.put()
+              user.party_key = new_party.put()
+              user.put()
 
 
-          return add_response(response='added party')
+              return add_response(response='added party')
+          else:
+              return add_response(response="unable to add party")
       else:
 
           return add_response(response="party already exsists")

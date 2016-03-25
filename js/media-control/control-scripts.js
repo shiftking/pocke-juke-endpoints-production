@@ -14,7 +14,7 @@ function onPlayerStateChange(event) {
 
 
 function onPlayerReady(event) {
-
+  /**/
 };
 
 
@@ -37,11 +37,11 @@ function skipSong(){
   google.appengine.pocketjuke.production.update_party_details();
 }
 
-function stopVideo() {
+function stopSong() {
   player.pauseVideo();
 
 };
-function startVideo(){
+function startSong(){
 
   player.setVolume(30);
   player.playVideo();

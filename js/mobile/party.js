@@ -139,7 +139,7 @@ google.appengine.pocketjuke.production.getPartyInfo = function(){
     response: document.querySelector("#party_name").innerHTML
   }).execute(function(resp){
     //var party_name = resp.party_name;
-    //alert(resp.party_name);
+    //alert(resp.Activity_list[0].track_id);
     if(!resp.code){
       //alert(resp.response);
       if(resp.Activity_list[0].track_id != 1){
@@ -195,23 +195,23 @@ google.appengine.pocketjuke.production.getPartyInfo = function(){
 
         document.querySelector('#more_songs').addEventListener('click',function(){
           if(!playlist_open){
-            $("#more_songs_container").css('z-index',1000);
-            document.querySelector("#more_songs_container").style.position = "absolute";
-            $("#more_songs_container").animate({top: "-.1vh",left:"-2vw"},500);
-            $("#more_songs_container").animate({height: "95vh"},500);
-            $("#more_songs_container").animate({width: "80vw"},500);
-
-            setTimeout(google.appengine.pocketjuke.production.secondary_playlist,1700);
+            $("#playlist_landing").css('z-index',1000);
+            document.querySelector("#playlist_landing").style.position = "absolute";
+            //$("#playlist_landing").animate({top: "-.1vh",left:"-2vw"},500);
+            $("#playlist_landing").animate({height: "95vh"},500);
+            $("#playlist_landing").animate({width: "80vw"},500);
+            
+            //setTimeout(google.appengine.pocketjuke.production.secondary_playlist,1700);
             $("#playlist_landing").fadeIn();
             playlist_open = true;
           }else{
-            $("#more_songs_container").css('z-index',1000);
+            $("#playlist_landing").css('z-index',1000);
 
             document.querySelector('#playlist_landing').innerHTML = "";
             $("#playlist_landing").fadeOut();
-            $("#more_songs_container").animate({top: "+=.1vh",left:"+=2vw"},500);
-            $("#more_songs_container").animate({height: "2vh"},500);
-            $("#more_songs_container").animate({width: "auto"},500);
+            $("#playlist_landing").animate({top: "+=.1vh",left:"+=2vw"},500);
+            $("#playlist_landing").animate({height: "2vh"},500);
+            $("#playlist_landing").animate({width: "75vw"},500);
             //pause(500);
             document.querySelector("#more_songs_container").style.position = "relative";
             playlist_open = false;
