@@ -154,18 +154,18 @@ google.appengine.pocketjuke.production.enableButtons = function(){
 
     if(updated){//server has been updated
       if(playing){//song is palying
-        stopVideo();
+        stopSong();
         playing =false
         document.querySelector("#status").innerHTML = 'Play';
       }else{//song is not playing
-        startVideo();
+        startSong();
         playing = true;
         document.querySelector("#status").innerHTML = 'Pause';
       }
     }else{ //server has not been updated
       if(!playing){
         //update server with song palying set true
-        startVideo();
+        startSong();
         playing = true;
         updated = true;
 
@@ -219,10 +219,10 @@ google.appengine.pocketjuke.production.load_song = function(name){
 
       player.loadVideoById(resp.result.items[0].id.videoId,0,'default');
       if(playing){
-        startVideo();
+        startSong();
 
       }else{
-        stopVideo();
+        stopSong();
       }
 
     });
