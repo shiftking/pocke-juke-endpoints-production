@@ -31,18 +31,48 @@
 
 
                     <div class="row">
-                      <div class="playlist_landing  container" id="playlist_landing" >
-                        <a href="#" id="plalyist">
-                          <div class="col-xs-6">
 
+                        <div class="playlist_landing  container" id="playlist_landing" >
+                            <div class="row">
+                              <div class="col-xs-12 options">
+                              <a href="#" id="playlist">
+                                <div class="col-xs-5 playlist_button" id="playlist">
+                                  <p>Party Playlist</p>
+                                </div>
+                              </a>
+                              <a href="#" id="suggestion">
+                                <div class="col-xs-5 suggestion_button" id="suggestion">
+                                  <p>Search Songs</p>
+                                </div>
+                              </a>
+                              <a href="#" id="close">
+                                <div class="col-xs-1 close_landing" id="close">
+                                  <p>X</p>
+                                </div>
+                              </a>
+                            </div>
                           </div>
-                        </a>
-                        <a href="#" id="add_songs">
-                          <div class="col-xs-6">
+                          <div class="row">
+                            <div class="col-xs-12">
+                              <div class="active_playlist" id="active_playlist">
+                              </div>
+                              <div class="suggestion_playlist" id="suggestion_playlist">
+                                <div class="suggestion_form">
+                                  <div class="col-xs-8 no_padding">
+                                    <input class="form-control custom_form" id="name" type="text" placeholder="Search for a Song">
+                                  </div>
+                                  <div class="col-xs-2 no-padding-left">
+                                    <button type="button" onclick="" id="search_song"class="custom_form btn search main input-sm  "><span class="glyphcon glyphicon-search" aria-hidden="true"></span></button>
+                                  </div>
+                                </div>
+                                <div class="results" id="results">
 
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </a>
-                      </div>
+                        </div>
+
                       <div class="menu ">
 
                           <div class="col-xs-2 party_icon">
@@ -61,11 +91,11 @@
                             </a>
                           </div>
                           <div class="col-xs-2 party_playlist">
-                            <a href="/playlist ">
+
                               <div class="">
-                                <p>PlayList</p>
+                                <p id="attending"></p>
                               </div>
-                            </a>
+
                           </div>
 
                       </div>

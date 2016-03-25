@@ -159,8 +159,9 @@
 }
 .playlist_landing{
   border-radius: 3vh;
-  background-color: #7d7b73;
+  background-color: lightgrey;
   display: none;
+  opacity: 45%;
 }
 .song_name{
   text-align: center;
@@ -168,17 +169,47 @@
   margin-bottom: auto;
 }
 .song_card{
-  width: 30.5vw;
-  height:19.5vh;
+  width: 35vw;
+  height:18.5vh;
   background-color: white;
   border-radius: 1.5vh;
   border: solid black 2px;
   float:left;
-  margin-left: 1.25vh;
+  margin-left: 2.5vh;
   margin-top: 1vh;
-  padding-top: 11vh;
+  padding-top: 9vh;
 }
+.playlist_button{
+  height: 5vh;
+  padding-top: 1.5vh;
+  width: auto;
+  margin-right: .5vw;
+  border-radius: 1.5vh;
+  background-color: #7d7b73;
+  text-align: center;
+}
+.suggestion_button{
+  padding-top: 1.5vh;
+  height: 5vh;
+  width: auto;
+  margin-right: .5vw;
+  border-radius: 1.5vh;
+  background-color: #7d7b73;
+  text-align: center;
+}
+.close_landing{
+  height: 5vh;
+  padding-top: 1.5vh;
+  width: auto;
+  border-radius: 1.5vh;
+  background-color: #7d7b73;
+  text-align: center;
+}
+.options{
+  padding-top: 2vh;
+  padding-bottom: 2vh;
 
+}
 .song_info_card{
   height: 6vh;
   width: 25vw;
@@ -195,4 +226,15 @@
 .song_title{
   color:black;
   opacity: none;
+}
+.active_playlist{
+  display: none;
+}
+.suggestion_playlist{
+  display: none;
+}
+.custom_form{
+  height: 4vh !important;
+  margin: none !important;
+
 }

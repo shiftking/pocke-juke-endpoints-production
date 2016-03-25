@@ -70,7 +70,7 @@ google.appengine.pocketjuke.production.secondary_playlist = function(){
           success: function(resp){
             if(!resp.code){
               var songs = resp.tracks;
-              document.querySelector("#playlist_landing").innerHTML = "";
+              document.querySelector("#active_playlist").innerHTML = "";
               for(var j = 0;j < songs.length;j++){
                 if(j < songs.length){
                   var row = document.createElement('div');
@@ -122,7 +122,7 @@ google.appengine.pocketjuke.production.secondary_playlist = function(){
                   link_2.appendChild(song_card_2);
                   row.appendChild(link_2);
                 }
-                document.querySelector("#playlist_landing").appendChild(row);
+                document.querySelector("#active_playlist").appendChild(row);
               }
             }
           }
@@ -144,6 +144,7 @@ google.appengine.pocketjuke.production.getPartyInfo = function(){
       //alert(resp.response);
       if(resp.Activity_list[0].track_id != 1){
       //document.querySelector('#party_name').innerHTML = resp.party_name;
+        document.querySelector("#attending").innerHTML = resp.attending;
         if(resp.Activity_list.length > 4){
           count = 4;
         }else{
@@ -194,17 +195,59 @@ google.appengine.pocketjuke.production.getPartyInfo = function(){
 
 
         document.querySelector('#more_songs').addEventListener('click',function(){
-          if(!playlist_open){
+
+            $("#playlist_landing").css('z-index',1000);
+            document.querySelector("#playlist_landing").style.position = "absolute";
+            $("#playlist_landing").animate({height: "94vh"},200);
+            $("#playlist_landing").animate({width: "82vw"},200);
+            $("#playlist_landing").fadeIn();
+            $("#active_playlist").animate({height: "94vh"},200);
+            $("#active_playlist").animate({width: "82vw"},200);
+            $("#active_playlist").fadeIn();
+            setTimeout(google.appengine.pocketjuke.production.secondary_playlist,400);
+            //add click listener for closing the
+
+
+            document.querySelector("#playlist").addEventListener('click',function(){
+              $("#suggestion_playlist").fadeOut();
+              $("#suggestion_playlist").animate({width: "0vw"},200);
+
+              $("#active_playlist").animate({height: "95vh"},200);
+              $("#active_playlist").animate({width: "82vw"},200);
+              $("#active_playlist").fadeIn();
+
+
+            });
+            document.querySelector("#suggestion").addEventListener('click',function(){
+              $("#active_playlist").fadeOut();
+              $("#active_playlist").animate({width: "0vw"},200);
+
+              $("#suggestion_playlist").animate({width: "82vw"},200);
+              $("#suggestion_playlist").animate({height: "94vw"},200);
+              $("#suggestion_playlist").fadeIn();
+            });
+            document.querySelector("#close").addEventListener('click',function(){
+              $("#playlist_landing").fadeOut();
+              $("#playlist_landing").css('z-index',0);
+              document.querySelector("#playlist_landing").style.position = "realtive";
+              $("#playlist_landing").animate({height: "0vh"},200);
+              $("#playlist_landing").animate({width: "0vw"},200);
+            });
+
+            /*
             $("#playlist_landing").css('z-index',1000);
             document.querySelector("#playlist_landing").style.position = "absolute";
             //$("#playlist_landing").animate({top: "-.1vh",left:"-2vw"},500);
             $("#playlist_landing").animate({height: "95vh"},500);
             $("#playlist_landing").animate({width: "80vw"},500);
-            
+
             //setTimeout(google.appengine.pocketjuke.production.secondary_playlist,1700);
             $("#playlist_landing").fadeIn();
-            playlist_open = true;
-          }else{
+            */
+
+
+
+          /*else{
             $("#playlist_landing").css('z-index',1000);
 
             document.querySelector('#playlist_landing').innerHTML = "";
@@ -215,7 +258,7 @@ google.appengine.pocketjuke.production.getPartyInfo = function(){
             //pause(500);
             document.querySelector("#more_songs_container").style.position = "relative";
             playlist_open = false;
-          }
+          }*/
         });
 
         //document.querySelector("#queue").appendChild(more_songs);
@@ -229,6 +272,104 @@ google.appengine.pocketjuke.production.getPartyInfo = function(){
 
 
 };
+google.appengine.pocketjuke.production.add_song = function(id){
+  gapi.client.pocketjuke.pocketjuke.addSongAuthed({"track_id":id}).execute(function(resp){
+    if(!resp.code){
+      //alert(resp.response);
+      gapi.client.pocketjuke.pocketjuke.voteSongAuthed({"track_id":id}).execute(function(resp){
+        if(!resp.code){
+          //alert(resp.response);
+        }else{
+          //alert("someting wong");
+        }
+      });
+    }else{
+      //alert("someting wong");
+    }
+  });
+
+
+};
+var printSongs = function(resp){
+  var songs = resp.tracks.items;
+  //alert(songs.length);
+  document.querySelector("#results").innerHTML = "";
+  if(songs.length > 0){
+    for(var i = 0;i<songs.length;i+=2){
+      var row = document.createElement('div');
+      row.className = "row";
+      var card_info_1 = document.createElement('div');
+      card_info_1.className = "song_info_card";
+      var card_name_1 = document.createElement('p');
+      card_name_1.className = "song_title";
+      card_name_1.innerHTML = songs[i].name;
+      card_info_1.appendChild(card_name_1);
+      var song_card_1 = document.createElement('div');
+      song_card_1.className = "song_card";
+      song_card_1.style.backgroundImage = 'url(' +songs[i].album.images[1].url+')';
+      song_card_1.style.backgroundSize = "19.5vh 32.5vw";
+      song_card_1.appendChild(card_info_1);
+      var link_1 = document.createElement('a');
+      link_1.className = "card";
+      link_1.href="#";
+      link_1.id = songs[i].id;
+      link_1.appendChild(song_card_1);
+      link_1.addEventListener('click',function(e){
+        google.appengine.pocketjuke.production.add_song(this.id);
+        //alert(this.id || 'No id');
+      });
+      var card_info_2 = document.createElement('div');
+      card_info_2.className = "song_info_card";
+      var card_name_2 = document.createElement('p');
+      card_name_2.className = "song_title";
+      card_name_2.innerHTML = songs[i+1].name;
+      card_info_2.appendChild(card_name_2);
+      var song_card_2 = document.createElement('div');
+      song_card_2.className = "song_card";
+      song_card_2.style.backgroundImage = 'url(' +songs[i +1].album.images[1].url+')';
+      song_card_2.style.backgroundSize = "19.5vh 32.5vw";
+      song_card_2.appendChild(card_info_2);
+      var link_2 = document.createElement('a');
+      link_2.className = "card";
+      link_2.href="#";
+      link_2.id = songs[i+1].id;
+      link_2.addEventListener('click',function(e){
+        google.appengine.pocketjuke.production.add_song(this.id);
+        //alert(this.id || 'No id');
+      });
+      link_2.appendChild(song_card_2);
+      row.appendChild(link_1);
+      row.appendChild(link_2);
+      document.querySelector("#results").appendChild(row);
+
+    }
+    var return_button = document.createElement('div');
+    return_button.className = "return_button";
+    return_button.addEventListener('click',function(){
+      window.location.href = '/party';
+    });
+    document.querySelector('#results').appendChild(return_button);
+
+  }else{
+    //insert a fail card
+  }
+};
+var searchSong = function(query){
+  $.ajax({
+       url: 'https://api.spotify.com/v1/search',
+       data: {
+           q: query,
+           type: 'track',
+           market: 'US',
+           limit: '8'
+       },
+       success: function (response) {
+           printSongs(response);
+       }
+   });
+
+};
+
 google.appengine.pocketjuke.production.leave_party = function(){
 
   gapi.client.pocketjuke.pocketjuke.leavePartyAuthed().execute(function(resp){
@@ -242,7 +383,10 @@ google.appengine.pocketjuke.production.leave_party = function(){
 google.appengine.pocketjuke.production.enableButtons = function(){
   //alert(localStorage.getItem("session_token"));
   google.appengine.pocketjuke.production.getPartyInfo();
-
+  document.querySelector("#search_song").addEventListener('click',function(e){
+    //alert(document.querySelector("#name").value);
+    searchSong(document.querySelector("#name").value);
+  });
   //document.querySelector("#leave_party").addEventListener('click',function(e){
     //alert(document.querySelector("#name").value);
     //google.appengine.pocketjuke.production.leave_party();
